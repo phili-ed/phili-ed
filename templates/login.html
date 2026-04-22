@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+    {% block content %}
+
+    <h2>LOG IN</h2>
+    <p>Practice Questions will be listed</p>
+    <form action="{{ request.full_path }}" method="POST">
+        <label>
+            <input type="text" name="username" placeholder="Username"> username
+        </label>
+        <label>
+            <input type="password" name="password" placeholder="Password"> password
+        </label>
+        <button type="submit">Login</button>
+    </form>
+    {% endblock %}
