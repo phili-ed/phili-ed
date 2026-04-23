@@ -7,11 +7,23 @@
     <h2>Search for topics</h2>
     <p>Practice Questions will be listed</p>
     <form action="/result" method="GET">
+        <h3>Select topics you learnt:</h3>
         {% for topic in all_topics %}
         <label>
             <input type="checkbox" name="topic" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
         </label>
         {%  endfor  %}
+        <h3>Select your target level:</h3>
+        <label>
+            <input type="checkbox" name="level" value="3">3
+        </label>
+        <label>
+            <input type="checkbox" name="level" value="4">4
+        </label>
+        <label>
+            <input type="checkbox" name="level" value="5">5
+        </label>
+        
         <br>
         <button type="submit">Search</button>
     </form>
