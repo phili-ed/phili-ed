@@ -165,13 +165,15 @@ def create_tables():
         
 create_tables()
 
-def filter_practices(allowed_topic_ids):
+def filter_practices(allowed_topic_ids, levels):
     allowed_set=set(allowed_topic_ids)
     all_practices = Practices.query.join(Practices.topics).filter(Topics.id.in_(allowed_topic_ids)).all()
     filtered = []
     for p in all_practices:
         p_topic_ids={t.id for t in p.topics}
-        if len(p_topic_ids)>0 and p_topic_ids.issubset(allowed_set):
+        is_subset= len(p_topic_ids)>0 and p_topic_ids.issubset(allowed_set)
+        is_correct_level = not levels or (p.level in levels)
+        if is_subset and is_correct_level:
             filtered.append(p)
     return filtered
 
@@ -201,10 +203,7 @@ def result():
     topic_ids = [int(tid) for tid in selected_topic_ids]
     
     # Use your existing filter function
-    practices_topic = filter_practices(topic_ids)
-    for prac in practices_topic:
-        if prac.level in selected_levels:
-            practices.append(prac)
+    practices= filter_practices(topic_ids,selected_levels)
     return render_template('result.html', practices=practices)
 
 @app.route('/upload',methods=['GET','POST'])
