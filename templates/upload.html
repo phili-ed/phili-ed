@@ -4,16 +4,36 @@
 
     {% block content %}
 <form action="/upload" method="POST" enctype="multipart/form-data">
-    <label>Question Image:</label>
-    <input type="file" name="question_file" accept="image/*" required>
+    <label>Question pdf:</label>
+    <input type="file" name="question_file" accept="application/pdf" required>
     
-    <label>Answer Image:</label>
-    <input type="file" name="answer_file" accept="image/*" required>
+    <label>Answer pdf:</label>
+    <input type="file" name="answer_file" accept="application/pdf" required>
     
+    <label>Question Chinese pdf:</label>
+    <input type="file" name="question_file_c" accept="application/pdf" required>
+    
+    <label>Answer Chinese pdf:</label>
+    <input type="file" name="answer_file_c" accept="application/pdf" required>
+    
+
     <label>Select Topics:</label>
     {% for topic in all_topics %}
         <input type="checkbox" name="topics" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
     {% endfor %}
+
+    <fieldset>
+        <legend>Select Level:</legend>
+    
+        <input type="radio" id="beginner" name="level" value="3" checked>
+        <label for="beginner">3</label><br>
+
+        <input type="radio" id="intermediate" name="level" value="4">
+        <label for="intermediate">4</label><br>
+
+        <input type="radio" id="advanced" name="level" value="5">
+        <label for="advanced">5</label>
+    </fieldset>
     
     <button type="submit">Upload Practice</button>
 </form>

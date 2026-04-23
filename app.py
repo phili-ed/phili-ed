@@ -210,10 +210,15 @@ def upload():
     if request.method=='POST':
         q_file=request.files.get('question_file')
         a_file=request.files.get('answer_file')
+        q_file_c=request.files.get('question_file_c')
+        a_file_c=request.files.get('answer_file_c')
         if not q_file or not a_file:
             return "Missing files!", 400
         q_filename=secure_filename(q_file.filename)
         a_filename=secure_filename(a_file.filename)
+        q_filename_c=secure_filename(q_file_c.filename)
+        a_filename_c=secure_filename(a_file_c.filename)
+        
         # q_file.save(os.path.join(app.config['UPLOAD_FOLDER'],q_filename))
         # a_file.save(os.path.join(app.config['UPLOAD_FOLDER'],a_filename))
         try:
@@ -229,11 +234,26 @@ def upload():
                 file=a_file.read() , 
                 file_options={"content-type":a_file.content_type}
                 )
+            q_file_c.seek(0)
+            supabase.storage.from_("practices").upload(
+                path=q_filename_c,
+                file=q_file_c.read() , 
+                file_options={"content-type":q_file_c.content_type}
+                )
+            a_file_c.seek(0)
+            supabase.storage.from_("practices").upload(
+                path=a_filename_c,
+                file=a_file_c.read() , 
+                file_options={"content-type":a_file_c.content_type}
+                )
 
             public_url_q = supabase.storage.from_("practices").get_public_url(q_filename)
             public_url_a = supabase.storage.from_("practices").get_public_url(a_filename)
+            public_url_q_c = supabase.storage.from_("practices").get_public_url(q_filename_c)
+            public_url_a_c = supabase.storage.from_("practices").get_public_url(a_filename_c)
             print(f"DEBUG: Question URL is {public_url_q}")
-            new_practice=Practices(questionLink=public_url_q,answerLink=public_url_a)
+            selected_level = request.form.get('level')
+            new_practice=Practices(questionLink=public_url_q,answerLink=public_url_a,questionLink_C=public_url_q_c,answerLink_C=public_url_a_c,level=selected_level)
             selected_topic_ids = request.form.getlist('topics')
             for tid in selected_topic_ids:
                 topic = Topics.query.get(int(tid))
