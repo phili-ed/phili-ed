@@ -12,7 +12,7 @@
     
     <label>Select Topics:</label>
     {% for topic in all_topics %}
-        <input type="checkbox" name="topics" value="{{ topic.id }}"> {{ topic.name }}
+        <input type="checkbox" name="topics" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
     {% endfor %}
     
     <button type="submit">Upload Practice</button>

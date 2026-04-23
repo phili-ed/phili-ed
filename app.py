@@ -88,9 +88,9 @@ def preload():
                 Topics(id=101,name='Temperature'),
                 Topics(id=102,name='Transfer processes'),
                 Topics(id=103,name='Specific heat capacity')
-                Topics(id=104,name='Latent heat and Evaporation')
-                Topics(id=105,name='Gas laws')
-                Topics(id=106,name='Kinetic theory')
+                Topics(id=104,name='Latent heat and Evaporation'),
+                Topics(id=105,name='Gas laws'),
+                Topics(id=106,name='Kinetic theory'),
             ]
             db.session.bulk_save_objects(topics_all)
             db.session.commit()

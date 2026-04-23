@@ -9,7 +9,7 @@
     <form action="/result" method="GET">
         {% for topic in all_topics %}
         <label>
-            <input type="checkbox" name="topic" value="{{ topic.id }}"> {{ topic.name }}
+            <input type="checkbox" name="topic" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
         </label>
         {%  endfor  %}
         <br>
