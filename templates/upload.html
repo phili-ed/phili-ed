@@ -18,9 +18,13 @@
     
 
     <label>Select Topics:</label>
+    <div class="row m-2">
     {% for topic in all_topics %}
-        <input type="checkbox" name="topics" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
+        <div class="card col-12 col-md-4 m-2 p-2">
+            <input type="checkbox" name="topics" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
+        </div>
     {% endfor %}
+    </div>
 
     <fieldset>
         <legend>Select Level:</legend>

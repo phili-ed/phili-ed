@@ -10,7 +10,7 @@
         <h3>Select topics you learnt:</h3>
         <div class="row mb-5">
         {% for topic in all_topics %}
-            <div class="card col-12 col-md-4">
+            <div class="card col-12 col-md-4 m-2 p-2">
                 <label>
                     <input type="checkbox" name="topic" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
                 </label>
