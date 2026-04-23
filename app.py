@@ -87,7 +87,7 @@ def preload():
             topics_all = [
                 Topics(id=101,name='Temperature'),
                 Topics(id=102,name='Transfer processes'),
-                Topics(id=103,name='Specific heat capacity')
+                Topics(id=103,name='Specific heat capacity'),
                 Topics(id=104,name='Latent heat and Evaporation'),
                 Topics(id=105,name='Gas laws'),
                 Topics(id=106,name='Kinetic theory'),
