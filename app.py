@@ -123,7 +123,7 @@ create_tables()
 
 def filter_practices(allowed_topic_ids):
     allowed_set=set(allowed_topic_ids)
-    all_practices = Practices.query.all()
+    all_practices = Practices.query.join(Practices.topics).filter(Topics.id.in_(allowed_topic_ids)).all()
     filtered = []
     for p in all_practices:
         p_topic_ids={t.id for t in p.topics}
