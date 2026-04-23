@@ -113,7 +113,7 @@ def preload():
                 Topics(id=313,name=' Wave phenomena'),
                 Topics(id=314,name=' Interference '),
                 Topics(id=315,name=' Stationary wave '),
-                Topics(id=316,name=' Light wave ‘),
+                Topics(id=316,name=' Light wave '),
                 Topics(id=317,name=' Sound '),
                 Topics(id=401,name=' Electric field '),
                 Topics(id=402,name=' Circuit electricity '),
