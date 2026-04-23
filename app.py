@@ -101,8 +101,8 @@ def preload():
             if topic not in practice.topics:
                 practice.topics.append(topic)
         
-        db.session.commit() 
-        print("good relationships preload")
+        #db.session.commit() 
+        #print("good relationships preload")
             
 
 def create_tables():
