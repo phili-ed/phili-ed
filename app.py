@@ -56,6 +56,9 @@ class Practices(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     questionLink = db.Column(db.String(300),nullable=False)
     answerLink = db.Column(db.String(300),nullable=False)
+    questionLink_C = db.Column(db.String(300))
+    answerLink_C = db.Column(db.String(300))
+    level = db.Column(db.Integer)
     topics=db.relationship('Topics',secondary=practice_topic, back_populates='practices')
 
 class User(db.Model, UserMixin):
@@ -82,32 +85,24 @@ def preload():
 
         if Topics.query.first() is None:
             topics_all = [
-                Topics(id=1,name='ratio'),
-                Topics(id=2,name='geometry'),
-                Topics(id=3,name='mensuration')
+                Topics(id=101,name='Temperature'),
+                Topics(id=102,name='Transfer processes'),
+                Topics(id=103,name='Specific heat capacity')
+                Topics(id=104,name='Latent heat and Evaporation')
+                Topics(id=105,name='Gas laws')
+                Topics(id=106,name='Kinetic theory')
             ]
             db.session.bulk_save_objects(topics_all)
             db.session.commit()
             print('good topics preload')
+        
+        #for preload practice-topic relationship if needed
         def add_link(practice,topic):
             if topic not in practice.topics:
                 practice.topics.append(topic)
-        p1=Practices.query.get(1)
-        p2=Practices.query.get(2)
-        p3=Practices.query.get(3)
-
-        t_ratio = Topics.query.get(1)
-        t_geom = Topics.query.get(2)
-        t_mens = Topics.query.get(3)
-
-        add_link(p1,t_ratio)
-        add_link(p1,t_mens)
-        add_link(p2,t_ratio)
-        add_link(p2,t_geom)
-        add_link(p3,t_geom)
+        
         db.session.commit() 
         print("good relationships preload")
-        
             
 
 def create_tables():
@@ -142,8 +137,8 @@ def tutor(id):
 @app.route('/search')
 def search():
     topicSearch = request.args.get('topic','nothing')
-    practices = filter_practices([1,3])
-    return render_template('search.html',practices=practices)
+    allTopics = Topics.query.all()
+    return render_template('search.html',all_topics=allTopics)
 
 
 @app.route('/result')

@@ -7,15 +7,11 @@
     <h2>Search for topics</h2>
     <p>Practice Questions will be listed</p>
     <form action="/result" method="GET">
+        {% for topic in all_topics %}
         <label>
-            <input type="checkbox" name="topic" value="1"> Ratio
+            <input type="checkbox" name="topic" value="{{ topic.id }}"> {{ topic.name }}
         </label>
-        <label>
-            <input type="checkbox" name="topic" value="2"> Geometry
-        </label>
-        <label>
-            <input type="checkbox" name="topic" value="3"> Mensuration
-        </label>
+        {%  endfor  %}
         <br>
         <button type="submit">Search</button>
     </form>
