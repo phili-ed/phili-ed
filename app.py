@@ -167,12 +167,13 @@ create_tables()
 
 def filter_practices(allowed_topic_ids, levels):
     allowed_set=set(allowed_topic_ids)
+    target_levels = [int(lvl) for lvl in levels] if levels else []
     all_practices = Practices.query.join(Practices.topics).filter(Topics.id.in_(allowed_topic_ids)).all()
     filtered = []
     for p in all_practices:
         p_topic_ids={t.id for t in p.topics}
         is_subset= len(p_topic_ids)>0 and p_topic_ids.issubset(allowed_set)
-        is_correct_level = not levels or (p.level in levels)
+        is_correct_level = not target_levels or (p.level in target_levels)
         if is_subset and is_correct_level:
             filtered.append(p)
     return filtered
