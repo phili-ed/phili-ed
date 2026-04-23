@@ -71,8 +71,10 @@ class User(db.Model, UserMixin):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 def preload():
     with app.app_context():
+        '''
         if Practices.query.first() is None:
             practices_all = [
             Practices(questionLink='DSE2026P2Q18.jpg' , answerLink='DSE2026P2Q18-ans.jpg'),
@@ -82,7 +84,7 @@ def preload():
             db.session.bulk_save_objects(practices_all)
             db.session.commit()
             print("good practices preload")
-
+        '''
         if Topics.query.first() is None:
             topics_all = [
                 Topics(id=101,name='Temperature'),
@@ -103,6 +105,8 @@ def preload():
         
         #db.session.commit() 
         #print("good relationships preload")
+
+        
             
 
 def create_tables():
