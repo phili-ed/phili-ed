@@ -286,18 +286,26 @@ def delete():
     practices = Practices.query.all()   
     return render_template('delete.html', practices=practices)
 
+
+@app.route('/admin/manage', methods=['GET', 'POST'])
+@login_required
+def manage_practices():
+    if request.method == 'POST':
+        search_id = request.form.get('search_id')
+        # Find the specific practice to confirm before deleting
+        practice = Practices.query.get(search_id)
+        return render_template('manage.html', practice=practice)
+    
+    return render_template('manage.html', practice=None)
+
 @app.route('/delete/<int:id>')
 @login_required
 def delete_practice(id):
     practice_delete = Practices.query.get_or_404(id)
-    #try:
-    #    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], practice.questionLink))
-    #    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], practice.answerLink))
-    #except:
-    #    pass
     db.session.delete(practice_delete)
     db.session.commit()
-    return ("deleted!  <a href='/delete'></a>")
+    flash("Practice deleted successfully.")
+    return redirect(url_for('manage_practices'))
 
 @app.route('/login',methods=['GET','POST'])
 def login():
