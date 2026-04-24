@@ -18,9 +18,9 @@
     
 
     <label>Select Topics:</label>
-    <div class="row card">
+    <div class="row m-1">
     {% for topic in all_topics %}
-        <div class="card col-12 col-md-4 m-2 p-2">
+        <div class="card col-12 col-md-4 m-1 p-2">
             <input type="checkbox" name="topics" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
         </div>
     {% endfor %}
