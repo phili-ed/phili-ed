@@ -6,6 +6,6 @@ function loadAnswer(id, url) {
         container.innerHTML = ""; 
     } else {
         // Create the element only when clicked
-        container.innerHTML = `<iframe src="{{ p.answerLink }}" width="80%" height="300px" style="border: none;"></iframe>`;
+        container.innerHTML = `<iframe src="${url}" width="80%" height="300px" style="border: none;"></iframe>`;
     }
 }
