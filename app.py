@@ -298,7 +298,7 @@ def manage_practices():
     
     return render_template('manage.html', practice=None)
 
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>', methods=['POST'])
 @login_required
 def delete_practice(id):
     practice_delete = Practices.query.get_or_404(id)
