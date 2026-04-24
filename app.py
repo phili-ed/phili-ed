@@ -199,13 +199,14 @@ def result():
     # .getlist() retrieves all selected values for the name "topic"
     selected_topic_ids = request.args.getlist('topic')
     selected_levels = request.args.getlist('level')
+    selected_lang = request.args.get('language')
     
     # Convert string IDs (e.g., "1") to integers (e.g., 1)
     topic_ids = [int(tid) for tid in selected_topic_ids]
     
     # Use your existing filter function
     practices= filter_practices(topic_ids,selected_levels)
-    return render_template('result.html', practices=practices)
+    return render_template('result.html', practices=practices , lang = selected lang)
 
 @app.route('/upload',methods=['GET','POST'])
 @login_required

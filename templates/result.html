@@ -9,16 +9,19 @@
     <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding: 10px;">
         <img src="{{ p.questionLink }}" alt="Question" style="max-width: 100%; height: auto;">
         <img src="{{ p.answerLink }}" alt="Answer" style="max-width: 100%; height: auto;">
-        
+        {% if lang=='Chi' %} 
+        <iframe src="{{ p.questionLink_C }}" width="80%" height="300px" style="border: none;"></iframe>
+            <button onclick="loadAnswer('{{ p.id }}', '{{ p.answerLink_C }}')">
+                View Answer
+            </button>
+        {% else %}
         <iframe src="{{ p.questionLink }}" width="80%" height="300px" style="border: none;"></iframe>
-        <!-- <iframe src="{{ p.questionLink_C }}" width="80%" height="300px" style="border: none;"></iframe>
-        <iframe src="{{ p.answerLink_C }}" width="80%" height="300px" style="border: none;"></iframe>
-    -->
-    </div>
-    <button onclick="loadAnswer('{{ p.id }}', '{{ p.answerLink }}')">
-        View Answer
-    </button>
-    <div id="div-{{ p.id }}"></div>
+            <button onclick="loadAnswer('{{ p.id }}', '{{ p.answerLink }}')">
+                View Answer
+            </button>
+        {% endif %}
+        <div id="div-{{ p.id }}"></div>
+    
     {% endfor %}
     <script src="{{ url_for('static',filename='js/result.js')}}"></script>
     {% endblock %}
