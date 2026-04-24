@@ -29,7 +29,7 @@
 {% if practice %}
 <div class="alert alert-warning">
     <h4>Confirm Deletion</h4>
-    <p><strong>Topic:</strong> {{ practice.topic }} | <strong>Level:</strong> {{ practice.level }}</p>
+    <p><strong>Topic:</strong> {{ practice.topic.name }} | <strong>Level:</strong> {{ practice.level }}</p>
     
     <iframe src="{{ practice.questionLink }}" width="100%" height="300px"></iframe>
     <iframe src="{{ practice.answerLink }}" width="100%" height="300px"></iframe>
