@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %} Home {% endblock %}
+{% block title %} Upload {% endblock %}
 
     {% block content %}
 <form action="/upload" method="POST" enctype="multipart/form-data">
-    <label>Question pdf:</label>
-    <input type="file" name="question_file" accept="application/pdf" required>
-    
-    <label>Answer pdf:</label>
-    <input type="file" name="answer_file" accept="application/pdf" required>
-    
-    <label>Question Chinese pdf:</label>
-    <input type="file" name="question_file_c" accept="application/pdf" required>
-    
-    <label>Answer Chinese pdf:</label>
-    <input type="file" name="answer_file_c" accept="application/pdf" required>
-    
+    <div class="row">
+        <div class="col-md-6">
+            <label>Question pdf:</label>
+            <input type="file" name="question_file" accept="application/pdf" required>
+        </div>
+        <div class="col-md-6">
+            <label>Answer pdf:</label>
+            <input type="file" name="answer_file" accept="application/pdf" required>
+        </div>
+        <div class="col-md-6">
+            <label>Question Chinese pdf:</label>
+            <input type="file" name="question_file_c" accept="application/pdf" required>
+        </div>
+        <div class="col-md-6">
+            <label>Answer Chinese pdf:</label>
+            <input type="file" name="answer_file_c" accept="application/pdf" required>
+        </div>
+    </div>
 
     <label>Select Topics:</label>
     <div class="row m-1">
@@ -31,14 +37,18 @@
     <fieldset>
         <legend>Select Level:</legend>
     
-        <input type="radio" id="beginner" name="level" value="3" checked>
+        <input type="radio" id="beginner" name="level" value="3">
         <label for="beginner">3</label><br>
 
-        <input type="radio" id="intermediate" name="level" value="4">
+        <input type="radio" id="intermediate" name="level" value="4" checked>
         <label for="intermediate">4</label><br>
 
         <input type="radio" id="advanced" name="level" value="5">
         <label for="advanced">5</label>
+
+        <input type="radio" id="MC" name="level" value="0">
+        <label for="MC">MC</label><br>
+
     </fieldset>
     
     <button type="submit">Upload Practice</button>
