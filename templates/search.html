@@ -10,10 +10,12 @@
         <h3>Select topics you learnt:</h3>
         <div class="row m-1">
         {% for topic in all_topics %}
-            <div class="card col-6 col-md-4 m-1 p-1">
-                <label>
-                    <input type="checkbox" name="topic" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
-                </label>
+            <div class="col-6 col-md-4 p-2">
+                <div class="card">
+                    <label>
+                        <input type="checkbox" name="topic" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
+                    </label>
+                </div>
             </div>        
         {%  endfor  %}
         </div>
