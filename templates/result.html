@@ -5,7 +5,7 @@
     {% block content %}
 
     {% for p in practices %}
-    <h4>ID:  {{p.id}}</h4>
+    <h4>Question ID:  {{p.id}}</h4>
     <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding: 10px;">
         <img src="{{ p.questionLink }}" alt="Question" style="max-width: 100%; height: auto;">
         <img src="{{ p.answerLink }}" alt="Answer" style="max-width: 100%; height: auto;">
@@ -20,5 +20,5 @@
     </button>
     <div id="div-{{ p.id }}"></div>
     {% endfor %}
-    <script src="/js/result.js"></script>
+    <script src="{{ url_for('static',filename='js/result.js')}}"></script>
     {% endblock %}
