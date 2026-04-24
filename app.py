@@ -206,7 +206,7 @@ def result():
     
     # Use your existing filter function
     practices= filter_practices(topic_ids,selected_levels)
-    return render_template('result.html', practices=practices , lang = selected lang)
+    return render_template('result.html', practices=practices , lang = selected_lang)
 
 @app.route('/upload',methods=['GET','POST'])
 @login_required
