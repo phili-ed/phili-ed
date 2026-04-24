@@ -301,9 +301,7 @@ def manage_practices():
 @app.route('/delete/<int:id>', methods=['POST'])
 @login_required
 def delete_practice(id):
-    practice_delete = Practices.query.get_or_404(id)
-
-   
+    practice_delete = Practices.query.get_or_404(id)   
     try:
         # 1. Clear the links in the association table
         # This assumes your relationship is named 'topics' in your Practices model
@@ -313,7 +311,6 @@ def delete_practice(id):
         # 2. Now delete the practice itself
         db.session.delete(practice_delete)
         db.session.commit()
-        
         flash(f"Practice {id} and its topic links deleted.", "success")
     except Exception as e:
         db.session.rollback()
