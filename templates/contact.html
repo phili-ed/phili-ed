@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+    {% block content %}
+    
+    <div class="card">
+        <p>Email us at: <span id="email-link"></span></p>
+    </div>
+    <script>
+        // Bots can't read this easily
+        const user = "phili.science";
+        const domain = "gmail.com";
+        const element = document.getElementById('email-link');
+        element.innerHTML = `<a href="mailto:${user}@${domain}">${user}@${domain}</a>`;
+    </script>
+
+    {% endblock %}

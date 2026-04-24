@@ -336,6 +336,7 @@ def login():
 def logout():
     logout_user()
     return "logged out!"
+
     
 
 if __name__ == '__main__':
