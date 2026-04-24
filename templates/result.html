@@ -4,6 +4,35 @@
 
     {% block content %}
 
+    <div class="accordion" id="mainAccordion">
+  {% for p in practices %}
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#practice-{{p.id}}">
+        Practice #{{ loop.index }} ({{ p.level }})
+      </button>
+    </h2>
+    <div id="practice-{{p.id}}" class="accordion-collapse collapse" data-bs-parent="#mainAccordion">
+      <div class="accordion-body">
+        
+        <h6 class="text-primary">📝 Question</h6>
+        <iframe src="{{ p.questionLink }}" class="w-100 rounded mb-3" style="height: 400px; border: 1px solid #ddd;"></iframe>
+
+        <div class="border-top pt-3">
+            <button class="btn btn-sm btn-outline-success mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#ans-content-{{p.id}}">
+                Check Answer
+            </button>
+            <div class="collapse" id="ans-content-{{p.id}}">
+                <iframe src="{{ p.answerLink }}" class="w-100 rounded" style="height: 400px; border: 1px solid #198754;"></iframe>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
     {% for p in practices %}
     <h4>Question ID:  {{p.id}}</h4>
     <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding: 10px;">

@@ -205,8 +205,10 @@ def result():
     topic_ids = [int(tid) for tid in selected_topic_ids]
     
     # Use your existing filter function
-    practices= filter_practices(topic_ids,selected_levels)
-    return render_template('result.html', practices=practices , lang = selected_lang)
+    all_filtered_practices = filter_practices(topic_ids,selected_levels)
+    num_to_select = min(len(all_filtered_practices), 5)
+    random_practices = random.sample(all_filtered_practices, num_to_select)
+    return render_template('result.html', practices=random_practices , lang = selected_lang)
 
 @app.route('/upload',methods=['GET','POST'])
 @login_required
