@@ -37,7 +37,7 @@ login_manager.login_view = 'login'
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits = ["200 per days","40 per hour"],
+    default_limits = ["100 per days","20 per hour"],
     storage_uri="memory://",
 )
 
@@ -73,6 +73,19 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+from functools import wraps
+from flask import abort
+from flask_login import current_user
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # If the user isn't logged in OR is not an admin, block them
+        if not current_user.is_authenticated or not current_user.is_admin:
+            abort(403) # "Forbidden" error
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 def preload():
@@ -160,9 +173,9 @@ def preload():
 def create_tables():
     with app.app_context():
         db.create_all()
-        if not User.query.filter_by(username='admin').first():
-            admin=User(username='admin',password = admin_pw, is_admin=True)
-            db.session.add(admin)
+        if not User.query.filter_by(username='student').first():
+            trial=User(username='student',password = 'abc', is_admin=False)
+            db.session.add(trial)
             db.session.commit()
         preload()
         
@@ -291,6 +304,7 @@ def delete():
 
 @app.route('/admin/manage', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def manage_practices():
     if request.method == 'POST':
         search_id = request.form.get('search_id')
