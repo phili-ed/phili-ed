@@ -298,10 +298,8 @@ def manage_practices():
     else:
         practice = Practices.query.order_by(desc(Practices.id)).first() 
     
-        return render_template('manage.html', practice=practice)
+    return render_template('manage.html', practice=practice)
     
-    return render_template('manage.html', practice=None)
-
 @app.route('/delete/<int:id>', methods=['POST'])
 @login_required
 def delete_practice(id):
