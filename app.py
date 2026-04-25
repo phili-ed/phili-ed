@@ -280,13 +280,13 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 
-
+'''
 @app.route('/delete')
 @login_required
 def delete():
     practices = Practices.query.all()  
     return render_template('delete.html', practices=practices)
-
+'''
 
 @app.route('/admin/manage', methods=['GET', 'POST'])
 @login_required

@@ -29,7 +29,7 @@
 {% if practice %}
 <div class="alert alert-warning">
     <h4>Confirm Deletion</h4>
-    <p><strong>Topic:</strong> 
+    <p><strong>ID:{{ practice.id }} Topic:</strong> 
         {% if practice.topics %}
             {{ practice.topics|map(attribute='name')|join(', ') }}
         {% else %}
