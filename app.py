@@ -19,7 +19,7 @@ db_uri=os.environ.get("DATABASE_URL")
 url = os.environ.get("SUPABASE_URL")
 key=os.environ.get("SUPABASE_KEY")
 admin_pw = generate_password_hash(os.environ.get("ADMIN_Q"),method='pbkdf2:sha256')
-pupil_pw = generate_password_hash('xyz',method='pbkdf2:sha256')
+pupil_pw = generate_password_hash("xyz",method='pbkdf2:sha256')
 UPLOAD_FOLDER='uploads'
 
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
