@@ -19,6 +19,7 @@ db_uri=os.environ.get("DATABASE_URL")
 url = os.environ.get("SUPABASE_URL")
 key=os.environ.get("SUPABASE_KEY")
 admin_pw = generate_password_hash(os.environ.get("ADMIN_Q"),method='pbkdf2:sha256')
+pupil_pw = generate_password_hash('xyz',method='pbkdf2:sha256')
 UPLOAD_FOLDER='uploads'
 
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
@@ -173,8 +174,8 @@ def preload():
 def create_tables():
     with app.app_context():
         db.create_all()
-        if not User.query.filter_by(username='student').first():
-            trial=User(username='student',password = 'abc', is_admin=False)
+        if not User.query.filter_by(username='pupil').first():
+            trial=User(username='pupil',password = pupil_pw, is_admin=False)
             db.session.add(trial)
             db.session.commit()
         preload()
