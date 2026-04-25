@@ -2,6 +2,7 @@ import os
 import random
 from flask import Flask , request , render_template ,send_from_directory, url_for , redirect , flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from supabase import create_client
@@ -283,7 +284,7 @@ def uploaded_file(filename):
 @app.route('/delete')
 @login_required
 def delete():
-    practices = Practices.query.all()   
+    practices = Practices.query.all()  
     return render_template('delete.html', practices=practices)
 
 
@@ -294,6 +295,9 @@ def manage_practices():
         search_id = request.form.get('search_id')
         # Find the specific practice to confirm before deleting
         practice = Practices.query.get(search_id)
+    else:
+        practice = Practices.query.order_by(desc(Practices.id)).first() 
+    
         return render_template('manage.html', practice=practice)
     
     return render_template('manage.html', practice=None)
