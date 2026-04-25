@@ -349,6 +349,36 @@ def login():
             return "invalid login"
     return render_template('login.html')
 
+@app.route('/account')
+@login_required
+def account():
+    return render_template('account.html')
+
+@app.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        new_pw = request.form.get('new_password')
+        confirm_pw = request.form.get('confirm_password')
+
+        # 1. Check if passwords match
+        if new_pw != confirm_pw:
+            flash("Passwords do not match!", "danger")
+            return redirect(url_for('change_password'))
+
+        # 2. Hash the new password
+        # We use the modern default (scrypt/pbkdf2)
+        hashed_pw = generate_password_hash(new_pw)
+
+        # 3. Update the current_user object and commit
+        current_user.password = hashed_pw
+        db.session.commit()
+
+        flash("Password updated successfully!", "success")
+        return redirect(url_for('index'))
+
+    return render_template('account.html')
+
 @app.route('/logout')
 @login_required
 def logout():
