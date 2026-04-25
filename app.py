@@ -368,14 +368,14 @@ def change_password():
 
         # 2. Hash the new password
         # We use the modern default (scrypt/pbkdf2)
-        hashed_pw = generate_password_hash(new_pw)
+        hashed_pw = generate_password_hash(new_pw,method='pbkdf2:sha256')
 
         # 3. Update the current_user object and commit
         current_user.password = hashed_pw
         db.session.commit()
 
         flash("Password updated successfully!", "success")
-        return redirect(url_for('index'))
+        return redirect(url_for('account'))
 
     return render_template('account.html')
 
