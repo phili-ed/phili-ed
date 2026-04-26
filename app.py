@@ -375,7 +375,7 @@ def change_password():
         db.session.commit()
 
         flash("Password updated successfully!", "success")
-        return redirect(url_for('search'))
+        return redirect(url_for('home'))
 
     return render_template('account.html')
 
