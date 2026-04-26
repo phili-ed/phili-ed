@@ -4,10 +4,9 @@
 
     {% block content %}
 
-    <h2>Search for topics</h2>
-    <p>Practice Questions will be listed</p>
+   
     <form action="/result" method="GET">
-        <h3>Select topics you learnt:</h3>
+        <h3>Select topics :</h3>
         <div class="row m-1">
         {% for topic in all_topics %}
             <div class="col-6 col-md-4 p-2">
@@ -18,7 +17,7 @@
                 </div>
             </div>        
         {%  endfor  %}
-        </div>
+        </div class="card m-2">
         <h3>Select your target level:</h3>
         <label>
             <input type="checkbox" name="level" value="3">3
@@ -32,7 +31,7 @@
         <label>
             <input type="checkbox" name="level" value="0">MC
         </label>
-        <div class="mb-3">
+        <div class="card m-2">
             <label class="form-label d-block">Language / 語言:</label>
     
             <div class="form-check form-check-inline">
@@ -46,6 +45,6 @@
             </div>
         </div>
         <br>
-        <button class="btn btn-primary m-2" type="submit">Search</button>
+        <button class="btn btn-primary m-2 p-1 w-100" type="submit">Search</button>
     </form>
     {% endblock %}
