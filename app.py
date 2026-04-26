@@ -70,6 +70,7 @@ class User(db.Model, UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(50),unique=True,nullable=False)
     password=db.Column(db.Text,nullable=False)
+    # role level 1=pupil  2=premium  3=inhouse tutor  4=web admin   5 = owner
     role_level=db.Column(db.Integer, default=1)
 
 @login_manager.user_loader
@@ -80,11 +81,11 @@ from functools import wraps
 from flask import abort
 from flask_login import current_user
 
-def owner_required(f):
+def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         # If the user isn't logged in OR is not an admin, block them
-        if not current_user.is_authenticated or not current_user.role_level==5:
+        if not current_user.is_authenticated or not current_user.role_level>=4:
             abort(403) # "Forbidden" error
         return f(*args, **kwargs)
     return decorated_function
