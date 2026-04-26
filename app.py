@@ -218,7 +218,7 @@ def search():
 
 
 @app.route('/result')
-@limiter.limit(get_search_limit())
+@limiter.limit(get_search_limit)
 def result():
     # .getlist() retrieves all selected values for the name "topic"
     selected_topic_ids = request.args.getlist('topic')
