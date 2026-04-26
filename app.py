@@ -197,6 +197,12 @@ def filter_practices(allowed_topic_ids, levels):
             filtered.append(p)
     return filtered
 
+def role_limit(user):
+    limit = "2 per hour"
+    if user.is_authenticated:
+        limit="10 per hour"
+    return limit
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -213,7 +219,7 @@ def search():
 
 
 @app.route('/result')
-# @limiter.limit("2 per minute")
+@limiter.limit(role_limit(current_user)
 def result():
     # .getlist() retrieves all selected values for the name "topic"
     selected_topic_ids = request.args.getlist('topic')
