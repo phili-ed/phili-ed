@@ -19,7 +19,8 @@ db_uri=os.environ.get("DATABASE_URL")
 url = os.environ.get("SUPABASE_URL")
 key=os.environ.get("SUPABASE_KEY")
 # admin_pw = generate_password_hash(os.environ.get("ADMIN_Q"),method='pbkdf2:sha256')
-pupil_pw = generate_password_hash("xyz",method='pbkdf2:sha256')
+owner_pw = generate_password_hash(os.environ.get("OWNER_K"),method='pbkdf2:sha256')
+# pupil_pw = generate_password_hash("xyz",method='pbkdf2:sha256')
 UPLOAD_FOLDER='uploads'
 
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
@@ -69,7 +70,7 @@ class User(db.Model, UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(50),unique=True,nullable=False)
     password=db.Column(db.Text,nullable=False)
-    is_admin=db.Column(db.Boolean, default=False)
+    role_level=db.Column(db.Integer, default=1)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -79,11 +80,11 @@ from functools import wraps
 from flask import abort
 from flask_login import current_user
 
-def admin_required(f):
+def owner_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         # If the user isn't logged in OR is not an admin, block them
-        if not current_user.is_authenticated or not current_user.is_admin:
+        if not current_user.is_authenticated or not current_user.role_level==5:
             abort(403) # "Forbidden" error
         return f(*args, **kwargs)
     return decorated_function
@@ -174,9 +175,9 @@ def preload():
 def create_tables():
     with app.app_context():
         db.create_all()
-        if not User.query.filter_by(username='pupil').first():
-            trial=User(username='pupil',password = pupil_pw, is_admin=False)
-            db.session.add(trial)
+        if not User.query.filter_by(username='choyuen').first():
+            owner=User(username='choyuen',password = owner_pw, role_level = 5)
+            db.session.add(owner)
             db.session.commit()
         preload()
         
