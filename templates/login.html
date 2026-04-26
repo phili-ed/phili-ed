@@ -7,12 +7,12 @@
     <h2>LOG IN</h2>
     <a class="btn btn-info m-2" href="/contact">contact us for sign up</a>
     <form action="{{ request.full_path }}" method="POST">
-        <label>
+        <label class="form-label">
             <input type="text" name="username" placeholder="Username"> username
         </label>
-        <label>
+        <label class="form-label">
             <input type="password" name="password" placeholder="Password"> password
         </label>
-        <button type="submit">Login</button>
+        <button class="btn btn-primary m-2" type="submit">Login</button>
     </form>
     {% endblock %}
