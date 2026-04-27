@@ -3,6 +3,7 @@
 {% block title %} Upload {% endblock %}
 
     {% block content %}
+<div class="container">
 <form action="/upload" method="POST" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
@@ -53,5 +54,6 @@
     
     <button type="submit">Upload Practice</button>
 </form>
+</div>
 
     {% endblock %}

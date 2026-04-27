@@ -4,21 +4,22 @@
 
     {% block content %}
     <div class="container">
-    <div class="row">
-    <div class="card col-12">
     <form action="/result" method="GET">
+        <div class="row">
+        <div class="card col-12 row">
         <h4>Select topics :</h4>
         {% for topic in all_topics %}
-        <div class="row">
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card p-2 m-2">
                     <label>
                         <input type="checkbox" name="topic" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
                     </label>
                 </div>
-            </div>    
-        </div>    
+            </div>      
         {%  endfor  %}
+        </div>
+        </div>
+        <div class="row">
         <div class="col-12 col-md-6">
             <div class="card m-2">
             <label class="form-label d-block">Practice types:</label>
@@ -51,8 +52,11 @@
             </div>
             </div>
         </div>
+        </div>
+        <div class="row">
         <div class="col-12">
             <button class="btn btn-primary m-3 p-1 w-100" type="submit">Search</button>
+        </div>
         </div>
     </form>
     </div>
