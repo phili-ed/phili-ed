@@ -17,8 +17,8 @@
                 </div>
             </div>        
         {%  endfor  %}
-        </div class="card m-2">
-        <h3>Select your target level:</h3>
+        <div class="card m-2">
+        <h3>Select Practice types:</h3>
         <label>
             <input type="checkbox" name="level" value="3">3
         </label>
@@ -31,6 +31,7 @@
         <label>
             <input type="checkbox" name="level" value="0">MC
         </label>
+        </div>
         <div class="card m-2">
             <label class="form-label d-block">Language / 語言:</label>
     
@@ -45,6 +46,9 @@
             </div>
         </div>
         <br>
-        <button class="btn btn-primary m-2 p-1 w-100" type="submit">Search</button>
+        <div class="col-12">
+            <button class="btn btn-primary m-3 p-1 w-100" type="submit">Search</button>
+        </div>
+        </div>
     </form>
     {% endblock %}
