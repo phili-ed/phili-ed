@@ -197,9 +197,9 @@ def filter_practices(allowed_topic_ids, levels):
     return filtered
 
 def get_search_limit():
-    limit = "2 per hour"
+    limit = "2 per day"
     if current_user.is_authenticated:
-        limit="12 per hour"
+        limit="4 per hour"
     return limit
 
 @app.route('/')
