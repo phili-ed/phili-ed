@@ -9,15 +9,40 @@
         <div class="card col-12 p-3">
         <h4 class="card-title">Select topics :</h4>
         <div class="row">
-        {% for topic in all_topics %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card p-2 m-2">
-                    <label>
-                        <input type="checkbox" name="topic" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
+        
+    {% for field_name, topics in books.items() %}
+    {% if topics %} <!-- Only show the field if it actually has topics -->
+    <div class="topic-group mb-4 p-3 border rounded shadow-sm">
+        <div class="form-check mb-2">
+            <!-- Master Checkbox for the Field -->
+            <input class="form-check-input field-master" type="checkbox" id="master-{{ loop.index }}">
+            <label class="form-check-label fw-bold" for="master-{{ loop.index }}">
+                {{ field_name }} (Select All)
+            </label>
+        </div>
+        
+        <div class="ms-4 row"> <!-- Indented sub-topics in a grid -->
+            {% for topic in topics %}
+            <div class="col-md-4 col-6">
+                <div class="form-check">
+                    <input class="form-check-input topic-item" type="checkbox" 
+                           name="topic" value="{{ topic.id }}" id="topic-{{ topic.id }}">
+                    <label class="form-check-label" for="topic-{{ topic.id }}">
+                        {{ topic.name }}
                     </label>
                 </div>
-            </div>      
-        {%  endfor  %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    
+    <button type="submit" class="btn btn-primary w-100 mt-3">Search Selected Topics</button>
+</form>
+        
+        
+        
         </div>
         </div>
         </div>
