@@ -37,11 +37,6 @@
     </div>
     {% endif %}
     {% endfor %}
-    
-    <button type="submit" class="btn btn-primary w-100 mt-3">Search Selected Topics</button>
-</form>
-        
-        
         
         </div>
         </div>
@@ -89,4 +84,18 @@
     </div>
     </div>
     </div>
+    
+<script>
+document.querySelectorAll('.field-master').forEach(masterBox => {
+    masterBox.addEventListener('change', function() {
+        // Find all checkboxes in the same 'topic-group' as this master checkbox
+        const group = this.closest('.topic-group');
+        const checkboxes = group.querySelectorAll('.topic-item');
+        
+        checkboxes.forEach(cb => {
+            cb.checked = this.checked;
+        });
+    });
+});
+</script>
     {% endblock %}
