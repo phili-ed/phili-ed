@@ -184,7 +184,7 @@ def create_tables():
 create_tables()
 
 def physics_books():
-    all_topics = Topics.query.ordered_by(Topics.id).all()
+    all_topics = Topics.query.order_by(Topics.id).all()
 
     books = {
         "Heat and Gases" : [t for t in all_topics if 100<t.id<200],
