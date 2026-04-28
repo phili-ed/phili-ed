@@ -187,16 +187,16 @@ def physics_books():
     all_topics = Topics.query.ordered_by(Topics.id).all()
 
     books = {
-        "Heat and Gases" : [t for t in all_topics if 100<t.id<200]
-        "Force and Motion" : [t for t in all_topics if 200<t.id<300]
-        "Light" : [t for t in all_topics if 300<t.id<310]
-        "Wave" : [t for t in all_topics if 310<t.id<400 ]
-        "Electricity and Magnetism" : [t for t in all_topics if 400<t.id<500]
-        "Radiation and Radioactivity" : [t for t in all_topics if 500<t.id<600]
-        "Astronomy":[t for t in all_topics if 600<t.id<700]
-        "Atomic scale":[t for t in all_topics if 700<t.id<800]
-        "Use of Energy":[t for t in all_topics if 800<t.id<900]
-        "Medical Physics":[t for t in all_topics if 900<t.id<1000]        
+        "Heat and Gases" : [t for t in all_topics if 100<t.id<200],
+        "Force and Motion" : [t for t in all_topics if 200<t.id<300],
+        "Light" : [t for t in all_topics if 300<t.id<310],
+        "Wave" : [t for t in all_topics if 310<t.id<400 ],
+        "Electricity and Magnetism" : [t for t in all_topics if 400<t.id<500],
+        "Radiation and Radioactivity" : [t for t in all_topics if 500<t.id<600],
+        "Astronomy":[t for t in all_topics if 600<t.id<700],
+        "Atomic scale":[t for t in all_topics if 700<t.id<800],
+        "Use of Energy":[t for t in all_topics if 800<t.id<900],
+        "Medical Physics":[t for t in all_topics if 900<t.id<1000],      
     }
     return books
 
