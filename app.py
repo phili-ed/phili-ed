@@ -231,7 +231,7 @@ def tutor(id):
 @app.route('/search')
 def search():
     topicSearch = request.args.get('topic','nothing')
-    return render_template('search.html',books=physics_books)
+    return render_template('search.html',books=physics_books())
 
 
 @app.route('/result')
