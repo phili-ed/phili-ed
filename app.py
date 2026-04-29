@@ -215,10 +215,9 @@ def filter_practices(allowed_topic_ids, levels):
     return filtered
 
 def get_search_limit():
-    limit = "1 per day"
-    if current_user.is_authenticated:
+    if current_user and current_user.is_authenticated:
         limit="4 per hour"
-    return limit
+    return "1 per day"
 
 
 def is_search_engine():
