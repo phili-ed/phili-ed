@@ -431,7 +431,7 @@ def ratelimit_handler(e):
 
 @app.route('/join-pathway')
 def limit_reached():
-    return render_template('limit_reached.html')
+    return render_template('limit-reached.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
