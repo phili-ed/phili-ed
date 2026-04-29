@@ -240,7 +240,7 @@ def search():
 
 
 @app.route('/result')
-@limiter.limit(get_search_limit, exempt_when=lambda: is_search_engine())
+@limiter.limit(get_search_limit, exempt_when=is_search_engine)
 def result():
     # .getlist() retrieves all selected values for the name "topic"
     selected_topic_ids = request.args.getlist('topic')
