@@ -214,9 +214,13 @@ def filter_practices(allowed_topic_ids, levels):
             filtered.append(p)
     return filtered
 
+
 def get_search_limit():
-    if current_user and current_user.is_authenticated:
-        limit="4 per hour"
+    try:
+        if current_user and current_user.is_authenticated:
+            return "4 per hour"
+    except Exception:
+        pass # Fallback to guest limit if context isn't ready
     return "1 per day"
 
 
@@ -252,6 +256,8 @@ def result():
     
     # Use your existing filter function
     all_filtered_practices = filter_practices(topic_ids,selected_levels)
+    if not all_filtered_practices:
+        return render_template('result.html', practices=[], lang=selected_lang)
     num_to_select = min(len(all_filtered_practices), 4)
     random_practices = random.sample(all_filtered_practices, num_to_select)
     return render_template('result.html', practices=random_practices , lang = selected_lang)
