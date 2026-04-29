@@ -189,13 +189,12 @@ def physics_books():
     books = {
         "Heat and Gases" : [t for t in all_topics if 100<t.id<200],
         "Force and Motion" : [t for t in all_topics if 200<t.id<300],
-        "Light" : [t for t in all_topics if 300<t.id<310],
-        "Wave" : [t for t in all_topics if 310<t.id<400 ],
+        "Wave Motion" : [t for t in all_topics if 300<t.id<400 ],
         "Electricity and Magnetism" : [t for t in all_topics if 400<t.id<500],
-        "Radiation and Radioactivity" : [t for t in all_topics if 500<t.id<600],
-        "Astronomy":[t for t in all_topics if 600<t.id<700],
-        "Atomic scale":[t for t in all_topics if 700<t.id<800],
-        "Use of Energy":[t for t in all_topics if 800<t.id<900],
+        "Radioactivity and Nuclear energy" : [t for t in all_topics if 500<t.id<600],
+        "Astronomy and Space science":[t for t in all_topics if 600<t.id<700],
+        "Atomic world":[t for t in all_topics if 700<t.id<800],
+        "Energy and Use of Energy":[t for t in all_topics if 800<t.id<900],
         "Medical Physics":[t for t in all_topics if 900<t.id<1000],      
     }
     return books
@@ -215,7 +214,7 @@ def filter_practices(allowed_topic_ids, levels):
     return filtered
 
 def get_search_limit():
-    limit = "2 per day"
+    limit = "1 per day"
     if current_user.is_authenticated:
         limit="4 per hour"
     return limit
@@ -247,7 +246,7 @@ def result():
     
     # Use your existing filter function
     all_filtered_practices = filter_practices(topic_ids,selected_levels)
-    num_to_select = min(len(all_filtered_practices), 5)
+    num_to_select = min(len(all_filtered_practices), 4)
     random_practices = random.sample(all_filtered_practices, num_to_select)
     return render_template('result.html', practices=random_practices , lang = selected_lang)
 
