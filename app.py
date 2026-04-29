@@ -1,4 +1,5 @@
 import os
+import re
 import random
 from flask import Flask , request , render_template ,send_from_directory, url_for , redirect , flash
 from flask_sqlalchemy import SQLAlchemy
@@ -219,6 +220,12 @@ def get_search_limit():
         limit="4 per hour"
     return limit
 
+
+def is_search_engine():
+    # Basic check for common bot names in User-Agent
+    ua = request.headers.get('User-Agent', '').lower()
+    return any(bot in ua for bot in ['googlebot', 'bingbot', 'slurp'])
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -234,7 +241,7 @@ def search():
 
 
 @app.route('/result')
-@limiter.limit(get_search_limit)
+@limiter.limit(get_search_limit, exempt_when=lambda: is_search_engine())
 def result():
     # .getlist() retrieves all selected values for the name "topic"
     selected_topic_ids = request.args.getlist('topic')
@@ -411,6 +418,15 @@ def logout():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')    
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    # This sends them to the page you built
+    return redirect(url_for('limit_reached'))
+
+@app.route('/join-pathway')
+def limit_reached():
+    return render_template('limit_reached.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)

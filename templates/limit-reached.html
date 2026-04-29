@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %} Limit-reached {% endblock %}
+
+    {% block content %}
+    
+    <div class="container py-5 text-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="display-1 text-primary mb-4"><i class="bi bi-lock-fill"></i></div>
+            <h1 class="fw-bold">Daily Limit Reached</h1>
+            <p class="lead text-muted">
+                You've accessed your free practice for today. 
+                Our organized pathways are designed to guide you through every stage of learning.
+            </p>
+            
+            <hr class="my-4">
+
+            <div class="card border-primary mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Unlock the Full Pathway</h5>
+                    <ul class="list-unstyled">
+                        <li>✅ Unlimited access to all Physics practices</li>
+                        <li>✅ Step-by-step organized learning stages</li>
+                        <li>✅ Watermark-free PDFs for Tutors</li>
+                        <li>✅ Priority support for individual questions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="https://wa.me/yourlink" class="btn btn-success btn-lg px-4">
+                    <i class="bi bi-whatsapp"></i> Chat with me to Join
+                </a>
+                <a href="mailto:you@example.com" class="btn btn-outline-secondary btn-lg px-4">
+                    Email for Pricing
+                </a>
+            </div>
+            
+            <p class="mt-4 small text-muted">Wait 24 hours for your free guest limit to reset.</p>
+        </div>
+    </div>
+</div>
+
+    {% endblock %}
