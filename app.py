@@ -409,7 +409,7 @@ def change_password():
         current_user.password = hashed_pw
         db.session.commit()
 
-        flash("Password updated successfully!", "success")
+        flash("Password updated successfully", "success")
         return redirect(url_for('home'))
 
     return render_template('account.html')
@@ -418,7 +418,8 @@ def change_password():
 @login_required
 def logout():
     logout_user()
-    return "logged out!"
+    flash("logout completed","success")
+    return redirect(url_for('home'))
 
 @app.route('/contact')
 def contact():
