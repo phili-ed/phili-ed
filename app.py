@@ -21,7 +21,7 @@ url = os.environ.get("SUPABASE_URL")
 key=os.environ.get("SUPABASE_KEY")
 # admin_pw = generate_password_hash(os.environ.get("ADMIN_Q"),method='pbkdf2:sha256')
 # owner_pw = generate_password_hash(os.environ.get("OWNER_K"),method='pbkdf2:sha256')
-partner_pw = generate_password_hash('mr_lai',method='pbkdf2:sha256')
+#partner_pw = generate_password_hash('',method='pbkdf2:sha256')
 
 UPLOAD_FOLDER='uploads'
 
@@ -356,6 +356,7 @@ def manage_practices():
     
 @app.route('/delete/<int:id>', methods=['POST'])
 @login_required
+@admin_required
 def delete_practice(id):
     practice_delete = Practices.query.get_or_404(id)   
     try:
@@ -385,7 +386,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('upload'))
         else:
             return "invalid login"
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/account')
 @login_required
