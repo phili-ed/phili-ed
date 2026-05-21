@@ -383,10 +383,10 @@ def login():
         if user and check_password_hash(user.password , password):
             login_user(user)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('upload'))
+            return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             return "invalid login"
-    return render_template('index.html')
+    return render_template('login.html')
 
 @app.route('/account')
 @login_required
