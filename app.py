@@ -21,6 +21,8 @@ url = os.environ.get("SUPABASE_URL")
 key=os.environ.get("SUPABASE_KEY")
 # admin_pw = generate_password_hash(os.environ.get("ADMIN_Q"),method='pbkdf2:sha256')
 # owner_pw = generate_password_hash(os.environ.get("OWNER_K"),method='pbkdf2:sha256')
+partner_pw = generate_password_hash('mr_lai',method='pbkdf2:sha256')
+
 UPLOAD_FOLDER='uploads'
 
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
@@ -177,9 +179,9 @@ def preload():
 def create_tables():
     with app.app_context():
         db.create_all()
-        if not User.query.filter_by(username='choyuen').first():
-            owner=User(username='choyuen',password = owner_pw, role_level = 5)
-            db.session.add(owner)
+        if not User.query.filter_by(username='dan').first():
+            partner=User(username='dan',password = partner_pw, role_level = 3)
+            db.session.add(partner)
             db.session.commit()
         preload()
         
