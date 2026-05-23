@@ -23,9 +23,17 @@
         <div class="row">
           <div class="col-md-8">
         {% if lang=='Chi' %}
-        <iframe src="{{ p.questionLink_C }}" class="w-100 rounded mb-3" style="height: 400px; border: 1px solid #ddd;"></iframe>
+        <iframe src="https://docs.google.com/gview?url={{ p.questionLink_C|urlencode }}&embedded=true" 
+        class="w-100 rounded mb-3" 
+        style="height: 400px; border: 1px solid #ddd;"
+        loading="lazy">
+        </iframe>
         {% else %}
-        <iframe src="{{ p.questionLink }}" class="w-100 rounded mb-3" style="height: 400px; border: 1px solid #ddd;"></iframe>
+        <iframe src="https://docs.google.com/gview?url={{ p.questionLink|urlencode }}&embedded=true" 
+        class="w-100 rounded mb-3" 
+        style="height: 400px; border: 1px solid #ddd;"
+        loading="lazy">
+        </iframe>
         {% endif %}
           </div>
           <div class="col-md-4">
@@ -52,9 +60,17 @@
             </button>
             <div class="collapse" id="ans-content-{{p.id}}">
               {% if lang=='Chi' %}
-                <iframe src="{{ p.answerLink_C }}" class="w-100 rounded" style="height: 400px; border: 1px solid #198754;"></iframe>
+                <iframe src="https://docs.google.com/gview?url={{ p.answerLink_C|urlencode }}&embedded=true" 
+                        class="w-100 rounded mb-3" 
+                        style="height: 400px; border: 1px solid #ddd;"
+                        loading="lazy">
+                </iframe>
               {% else %}
-                <iframe src="{{ p.answerLink }}" class="w-100 rounded" style="height: 400px; border: 1px solid #198754;"></iframe>
+                <iframe src="https://docs.google.com/gview?url={{ p.answerLink|urlencode }}&embedded=true" 
+                        class="w-100 rounded mb-3" 
+                        style="height: 400px; border: 1px solid #ddd;"
+                        loading="lazy">
+                </iframe>
               {% endif %}
               </div>
         </div>
