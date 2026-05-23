@@ -39,6 +39,35 @@
             Permanently Delete ID: {{ practice.id }}
         </button>
     </form>
+    <form action="{{ url_for('MCAns_practice', id=practice.id) }}" method="POST" class="mt-3">
+    <div class="d-flex align-items-center gap-3 mb-2">
+        <span class="fw-bold">Set Ans:</span>
+        
+        <div class="form-check form-check-inline m-0">
+            <input class="form-check-input" type="radio" name="answer" id="ansA_{{ practice.id }}" value="A" required>
+            <label class="form-check-label fw-bold" for="ansA_{{ practice.id }}">A</label>
+        </div>
+        
+        <div class="form-check form-check-inline m-0">
+            <input class="form-check-input" type="radio" name="answer" id="ansB_{{ practice.id }}" value="B">
+            <label class="form-check-label fw-bold" for="ansB_{{ practice.id }}">B</label>
+        </div>
+        
+        <div class="form-check form-check-inline m-0">
+            <input class="form-check-input" type="radio" name="answer" id="ansC_{{ practice.id }}" value="C">
+            <label class="form-check-label fw-bold" for="ansC_{{ practice.id }}">C</label>
+        </div>
+        
+        <div class="form-check form-check-inline m-0">
+            <input class="form-check-input" type="radio" name="answer" id="ansD_{{ practice.id }}" value="D">
+            <label class="form-check-label fw-bold" for="ansD_{{ practice.id }}">D</label>
+        </div>
+
+        <button type="submit" class="btn btn-sm btn-primary ms-2" onclick="return confirm('Are you absolutely sure?')">
+            Save Answer (ID: {{ practice.id }})
+        </button>
+    </div>
+</form>
 </div>
 {% endif %}
 

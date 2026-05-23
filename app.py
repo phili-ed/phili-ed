@@ -375,6 +375,23 @@ def delete_practice(id):
         flash(f"Error: {str(e)}", "danger")
     return redirect(url_for('manage_practices'))
 
+@app.route('/MCAns-practice/<int:id>', methods=['POST'])
+@login_required
+@admin_required
+def MCAns_practice(id):
+    MCAnswer = request.form.get('answer')
+    practice_MCAns = Practices.query.get_or_404(id)   
+    try:
+        practice_MCAns.MCAns = MCAnswer 
+       
+        db.session.commit()
+        flash(f"Practice {id} MC Ans added", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error: {str(e)}", "danger")
+    return redirect(url_for('manage_practices'))
+
+
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'POST':
