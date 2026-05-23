@@ -66,6 +66,7 @@ class Practices(db.Model):
     answerLink_C = db.Column(db.String(300))
     level = db.Column(db.Integer)
     topics=db.relationship('Topics',secondary=practice_topic, back_populates='practices')
+    MCAns = db.Column(db.String(1),nullable=True)
 
 class User(db.Model, UserMixin):
     __tablename__='users'
