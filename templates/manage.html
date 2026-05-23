@@ -41,6 +41,11 @@
     </form>
     <form action="{{ url_for('MCAns_practice', id=practice.id) }}" method="POST" class="mt-3">
     <div class="d-flex align-items-center gap-3 mb-2">
+        {% if practice.MCAns %}
+        <span class="fw-bold" >MC answer set as {{ practice.MCAns }} </span>
+        {% else %}
+        <span class="fw-bold" >MC answer not set</span>
+        {% endif %} 
         <span class="fw-bold">Set Ans:</span>
         
         <div class="form-check form-check-inline m-0">
