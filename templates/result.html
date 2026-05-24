@@ -78,39 +78,38 @@
           </div>
         </div>
 
-        <div class="border-top pt-3">
-            <button class="btn btn-sm btn-outline-success mb-2 mc-check-btn" 
-                    type="button" 
-                    data-bs-target="#ans-panel-{{ p.id }}"
-                    data-practice-id="{{p.id}}"
-                    data-lang="{{ lang }}"
-                    data-correct="{{ p.MCAns }}">
-                答案 Answer: Practice # {{ p.id }}
-            </button>
-            <div id="ans-panel-{{ p.id }}" class="d-none mt-2">
-              <div class="p-3 mb-3 border rounded evaluation-box text-center"></div>
-              {% if p.answerLink_C and lang=='Chi' %}
-                <iframe src="https://docs.google.com/gview?url={{ p.answerLink_C|urlencode }}&embedded=true" 
-                        class="w-100 rounded mb-3" 
-                        style="height: 400px; border: 1px solid #ddd;"
-                        loading="lazy">
-                </iframe>
-              {% elif p.answerLink %}
-                <iframe src="https://docs.google.com/gview?url={{ p.answerLink|urlencode }}&embedded=true" 
-                        class="w-100 rounded mb-3" 
-                        style="height: 400px; border: 1px solid #ddd;"
-                        loading="lazy">
-                </iframe>
-              {% else %}
-                <!-- Fallback if absolutely no answer documentation exists yet -->
-                <div class="p-3 mb-3 border rounded text-muted bg-light small">
-                
-                  Solution file is not available yet. 暫無答案文件
+
+
+
         
-                </div>
-              {% endif %}
-              </div>
-        </div>
+
+        <div class="border-top pt-3">
+    <a class="btn btn-sm btn-outline-success mb-2 mc-check-btn" 
+       role="button"
+       data-target="#ans-panel-{{ p.id }}"
+       data-practice-id="{{ p.id }}"
+       data-lang="{{ lang }}"
+       data-correct="{{ p.MCAns }}">
+        答案 Answer: Practice # {{ p.id }}
+    </a>
+    
+    <div id="ans-panel-{{ p.id }}" class="d-none mt-2">
+        <div class="p-3 mb-3 border rounded evaluation-box text-center"></div>
+        
+        {% if p.answerLink_C and lang=='Chi' %}
+            <iframe src="https://docs.google.com/gview?url={{ p.answerLink_C|urlencode }}&embedded=true" class="w-100 rounded mb-3" style="height: 400px; border: 1px solid #ddd;" loading="lazy"></iframe>
+        {% elif p.answerLink %}
+            <iframe src="https://docs.google.com/gview?url={{ p.answerLink|urlencode }}&embedded=true" class="w-100 rounded mb-3" style="height: 400px; border: 1px solid #ddd;" loading="lazy"></iframe>
+        {% else %}
+            <div class="p-3 mb-3 border rounded text-muted bg-light small">
+                Solution file is not available yet. 暫無答案文件
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
       </div>
     </div>
   </div>

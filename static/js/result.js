@@ -59,52 +59,44 @@ function loadSavedNotes() {
 // Run the load function as soon as the page is ready
 document.addEventListener('DOMContentLoaded', loadSavedNotes);
 
-
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.mc-check-btn').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevents page jumping
+            
             const practiceId = this.getAttribute('data-practice-id');
             const correctAnswer = this.getAttribute('data-correct');
             
-            // Inside your external .js file click listener:
-            const targetSelector = this.getAttribute('data-bs-target');
-            const panelEl = document.querySelector(targetSelector); // This will now perfectly find #ans-panel-ID!
+            // FIX: Read 'data-target' instead of 'data-bs-target'
+            const targetSelector = this.getAttribute('data-target');
+            const panelEl = document.querySelector(targetSelector); 
+            
             if (!panelEl) return;
             const evaluationBox = panelEl.querySelector('.evaluation-box');
             
             const currentLang = this.getAttribute('data-lang');
             const isChinese = (currentLang === "Chi");
 
-            // Fallback safety if it's an old PDF question without a multiple choice answer set
             if (!correctAnswer) {
                 panelEl.classList.toggle('d-none');
                 return;
             }
 
-            // Target the chosen radio button configuration
             const selectedRadio = document.querySelector(`input[name="answers[${practiceId}]"]:checked`);
             
             if (!selectedRadio) {
-                // 1. Reveal the hidden panel box instantly
                 panelEl.classList.remove('d-none');
                 
-                // 2. Set warning formatting styles
                 evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold";
                 evaluationBox.innerHTML = isChinese 
                     ? `⚠️ 请先选择一个选项再查看答案！` 
                     : `⚠️ Please select an option before checking the answer!`;
                 
-                // 3. Highlight button to indicate an input is required
-                this.classList.remove('btn-success', 'btn-danger', 'btn-outline-success');
-                this.classList.add('btn-outline-warning');
-                return; // Exits cleanly without blocking anything
+                this.className = "btn btn-sm btn-outline-warning mb-2 mc-check-btn";
+                return; 
             }
 
-            // If they have selected an answer, ensure the warning state is cleared out
-            this.classList.remove('btn-outline-warning');
             const studentChoice = selectedRadio.value;
-
-            // Make sure the panel box is showing the results
             panelEl.classList.remove('d-none');
 
             if (studentChoice === correctAnswer) {
@@ -113,18 +105,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     ? `🎉 正確！你的答案: ${studentChoice}` 
                     : `🎉 Correct! Your Choice: ${studentChoice}`;
                 
-                this.classList.remove('btn-outline-success', 'btn-danger');
-                this.classList.add('btn-success');
+                this.className = "btn btn-sm btn-success mb-2 mc-check-btn";
             } else {
                 evaluationBox.className = "p-3 mb-3 border rounded text-danger bg-danger bg-opacity-10 text-center fw-bold fs-5";
                 evaluationBox.innerHTML = isChinese 
                     ? `❌ 回答錯誤。你的回答 ${studentChoice}，正確答案: ${correctAnswer}` 
                     : `❌ Incorrect. You chose ${studentChoice}. correct answer: ${correctAnswer}`;
                 
-                this.classList.remove('btn-outline-success', 'btn-success');
-                this.classList.add('btn-danger');
+                this.className = "btn btn-sm btn-danger mb-2 mc-check-btn";
             }
         });
     });
 });
-
