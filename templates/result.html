@@ -85,15 +85,15 @@
 
         <div class="border-top pt-3">
 
-    <a class="btn btn-sm btn-outline-success mb-2 mc-check-btn" 
-   href="javascript:void(0);"
-   role="button"
-   data-target="#ans-panel-{{ p.id }}"
-   data-practice-id="{{ p.id }}"
-   data-lang="{{ lang }}"
-   data-correct="{{ p.MCAns }}">
+
+<button class="btn btn-sm btn-outline-success mb-2 mc-check-btn" 
+        type="button"
+        data-target="#ans-panel-{{ p.id }}"
+        data-practice-id="{{ p.id }}"
+        data-lang="{{ lang }}"
+        data-correct="{{ p.MCAns }}">
     答案 Answer: Practice # {{ p.id }}
-</a>
+</button>
     
     <div id="ans-panel-{{ p.id }}" class="d-none mt-2">
         <div class="p-3 mb-3 border rounded evaluation-box text-center"></div>
