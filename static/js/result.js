@@ -59,11 +59,11 @@ function loadSavedNotes() {
 // Run the load function as soon as the page is ready
 document.addEventListener('DOMContentLoaded', loadSavedNotes);
 
-
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.mc-check-btn').forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevents layout stuttering inside the accordion
+            e.preventDefault();      // Stops standard link behavior
+            e.stopPropagation();     // 🔥 CRITICAL FIX: Stops click from bubbling up into the Accordion!
             
             const practiceId = this.getAttribute('data-practice-id');
             const correctAnswer = this.getAttribute('data-correct');
