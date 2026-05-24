@@ -59,7 +59,7 @@ function loadSavedNotes() {
 // Run the load function as soon as the page is ready
 document.addEventListener('DOMContentLoaded', loadSavedNotes);
 
-
+document.addEventListener('DOMContentLoaded', function() {
 document.querySelectorAll('.mc-check-btn').forEach(button => {
     button.addEventListener('click', function() {
         const practiceId = this.getAttribute('data-practice-id');
@@ -67,15 +67,13 @@ document.querySelectorAll('.mc-check-btn').forEach(button => {
         const targetCollapseId = this.getAttribute('data-bs-target');
         const evaluationBox = document.querySelector(`${targetCollapseId} .evaluation-box`);
         
-        // 1. Read the language directly from the data-lang attribute
         const currentLang = this.getAttribute('data-lang');
         const isChinese = (currentLang === "Chi");
 
         if (!correctAnswer) return;
 
-        // 2. Exact match selector configuration
-        const selectedRadio = document.querySelector(`input[name="answers[${practiceId}]"]:checked`);
-        
+        // Use explicit string literal selection matching your HTML exactly:
+        const selectedRadio = document.querySelector('input[name="answers[' + practiceId + ']"]:checked');
         if (!selectedRadio) {
             evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold";
             evaluationBox.innerHTML = isChinese 
@@ -99,4 +97,4 @@ document.querySelectorAll('.mc-check-btn').forEach(button => {
         }
     });
 });
-
+});

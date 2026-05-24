@@ -88,18 +88,7 @@
     答案 Answer: Practice # {{ p.id }}
 </button>
             <div class="collapse" id="ans-content-{{p.id}}">
-              {% if p.MCAns %}
-              <!-- SECTION 1: Multiple Choice Answer Reveal -->
-              <div class="p-3 mb-3 border rounded border-success bg-success bg-opacity-10">
-                <h5 class="m-0 text-success fw-bold">
-                    {% if lang=='Chi' %}
-                        答案: <span class="badge bg-success fs-5 ms-2">{{ p.MCAns }}</span>
-                    {% else %}
-                        Answer: <span class="badge bg-success fs-5 ms-2">{{ p.MCAns }}</span>
-                    {% endif %}
-                </h5>
-              </div>
-              {% endif %}
+              <div class="p-3 mb-3 border rounded evaluation-box text-center"></div>
               {% if p.answerLink_C and lang=='Chi' %}
                 <iframe src="https://docs.google.com/gview?url={{ p.answerLink_C|urlencode }}&embedded=true" 
                         class="w-100 rounded mb-3" 
