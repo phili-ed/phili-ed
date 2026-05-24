@@ -59,69 +59,52 @@ function loadSavedNotes() {
 // Run the load function as soon as the page is ready
 document.addEventListener('DOMContentLoaded', loadSavedNotes);
 
+
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Create a global Map object to house our persistent collapse instances
-    const collapseInstances = new Map();
-
-    // 2. Pre-initialize every collapse panel on the page immediately upon loading
     document.querySelectorAll('.mc-check-btn').forEach(button => {
-        const targetSelector = button.getAttribute('data-bs-target');
-        const collapseEl = document.querySelector(targetSelector);
-        
-        if (collapseEl) {
-            // Create the official Bootstrap controller instance once
-            const bsCollapse = new bootstrap.Collapse(collapseEl, { toggle: false });
-            // Store it in our map using its unique practice id string as the key
-            const practiceId = button.getAttribute('data-practice-id');
-            collapseInstances.set(practiceId, bsCollapse);
-        }
-    });
-
-    // 3. Handle the click logic independently
-    document.querySelectorAll('.mc-check-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function() {
             const practiceId = this.getAttribute('data-practice-id');
             const correctAnswer = this.getAttribute('data-correct');
-            const targetSelector = this.getAttribute('data-bs-target');
-            const collapseEl = document.querySelector(targetSelector);
-            const evaluationBox = collapseEl.querySelector('.evaluation-box');
+            
+            // Locate the corresponding panel and evaluation text box directly
+            const panelEl = document.getElementById(`ans-panel-${practiceId}`);
+            if (!panelEl) return;
+            const evaluationBox = panelEl.querySelector('.evaluation-box');
             
             const currentLang = this.getAttribute('data-lang');
             const isChinese = (currentLang === "Chi");
 
-            // Fetch our pre-initialized instance out of storage safely
-            const bsCollapse = collapseInstances.get(practiceId);
-
-            // Fallback safety if it's an old PDF layout style question
+            // Fallback safety if it's an old PDF question without a multiple choice answer set
             if (!correctAnswer) {
-                if (bsCollapse) bsCollapse.toggle();
+                panelEl.classList.toggle('d-none');
                 return;
             }
 
-            // Target the selected radio button input row safely
-            const selectedRadio = document.querySelector('input[name="answers[' + practiceId + ']"]:checked');
+            // Target the chosen radio button configuration
+            const selectedRadio = document.querySelector(`input[name="answers[${practiceId}]"]:checked`);
             
             if (!selectedRadio) {
-                // Force the collapse panel window to slide open
-                if (bsCollapse) bsCollapse.show();
+                // 1. Reveal the hidden panel box instantly
+                panelEl.classList.remove('d-none');
                 
-                // Format warning banner visual states
+                // 2. Set warning formatting styles
                 evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold";
                 evaluationBox.innerHTML = isChinese 
                     ? `⚠️ 请先选择一个选项再查看答案！` 
                     : `⚠️ Please select an option before checking the answer!`;
                 
-                this.classList.remove('btn-success', 'btn-danger');
+                // 3. Highlight button to indicate an input is required
+                this.classList.remove('btn-success', 'btn-danger', 'btn-outline-success');
                 this.classList.add('btn-outline-warning');
-                return; // Code exits here perfectly cleanly without locking Bootstrap!
+                return; // Exits cleanly without blocking anything
             }
 
-            // Clear out warning layouts if an answer is selected now
+            // If they have selected an answer, ensure the warning state is cleared out
             this.classList.remove('btn-outline-warning');
             const studentChoice = selectedRadio.value;
 
-            // Expand panel display container dynamically
-            if (bsCollapse) bsCollapse.show();
+            // Make sure the panel box is showing the results
+            panelEl.classList.remove('d-none');
 
             if (studentChoice === correctAnswer) {
                 evaluationBox.className = "p-3 mb-3 border rounded text-success bg-success bg-opacity-10 text-center fw-bold fs-5";
@@ -143,3 +126,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+

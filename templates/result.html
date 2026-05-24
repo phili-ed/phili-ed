@@ -87,7 +87,7 @@
                     data-correct="{{ p.MCAns }}">
                 答案 Answer: Practice # {{ p.id }}
             </button>
-            <div class="collapse" id="ans-content-{{p.id}}">
+            <div id="ans-panel-{{ p.id }}" class="d-none mt-2">
               <div class="p-3 mb-3 border rounded evaluation-box text-center"></div>
               {% if p.answerLink_C and lang=='Chi' %}
                 <iframe src="https://docs.google.com/gview?url={{ p.answerLink_C|urlencode }}&embedded=true" 
