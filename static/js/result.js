@@ -87,13 +87,18 @@ document.querySelectorAll('.mc-check-btn').forEach(button => {
         if (studentChoice === correctAnswer) {
             evaluationBox.className = "p-3 mb-3 border rounded text-success bg-success bg-opacity-10 text-center fw-bold fs-5";
             evaluationBox.innerHTML = isChinese 
-                ? `🎉 回答正确！你的选择: ${studentChoice}` 
+                ? `🎉 正確！你的答案: ${studentChoice}` 
                 : `🎉 Correct! Your Choice: ${studentChoice}`;
+            // 2. Turn the button GREEN
+            this.classList.remove('btn-outline-success', 'btn-danger');
+            this.classList.add('btn-success');
         } else {
             evaluationBox.className = "p-3 mb-3 border rounded text-danger bg-danger bg-opacity-10 text-center fw-bold fs-5";
             evaluationBox.innerHTML = isChinese 
-                ? `❌ 回答错误。你选了 ${studentChoice}，正确答案是: ${correctAnswer}` 
-                : `❌ Incorrect. You chose ${studentChoice}. The correct answer is: ${correctAnswer}`;
+                ? `❌ 回答錯誤。你的回答 ${studentChoice}，正確答案: ${correctAnswer}` 
+                : `❌ Incorrect. You chose ${studentChoice}.  correct answer: ${correctAnswer}`;
+            this.classList.remove('btn-outline-success', 'btn-success');
+            this.classList.add('btn-danger');
         }
     });
 });

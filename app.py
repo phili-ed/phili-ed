@@ -375,6 +375,26 @@ def delete_practice(id):
         flash(f"Error: {str(e)}", "danger")
     return redirect(url_for('manage_practices'))
 
+
+@app.route('/remove-answers/<int:id>', methods=['POST'])
+@login_required
+@admin_required  # Or your role custom wrapper check line
+def remove_answers(id):
+    practice = Practices.query.get_or_404(id)
+    try:
+        # Set database strings back to empty states
+        practice.answerLink = None
+        practice.answerLink_C = None
+        
+        db.session.commit()
+        flash(f"Answer documents for Practice {id} have been successfully removed.", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Database adjustment failed: {str(e)}", "danger")
+        
+    return redirect(url_for('manage_practices'))  # Change this string match endpoint to your actual view route
+
+
 @app.route('/MCAns-practice/<int:id>', methods=['POST'])
 @login_required
 @admin_required
