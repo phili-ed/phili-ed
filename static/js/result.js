@@ -58,3 +58,49 @@ function loadSavedNotes() {
 
 // Run the load function as soon as the page is ready
 document.addEventListener('DOMContentLoaded', loadSavedNotes);
+
+document.querySelectorAll('.mc-check-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const practiceId = this.getAttribute('data-practice-id');
+        const correctAnswer = this.getAttribute('data-correct');
+        const targetCollapseId = this.getAttribute('data-bs-target');
+        const evaluationBox = document.querySelector(`${targetCollapseId} .evaluation-box`);
+        
+        // Skip entirely if this is an old structural PDF question without an MC option setup
+        if (!correctAnswer) {
+            if (evaluationBox) evaluationBox.remove(); // Remove the alert placeholder styling box cleanly
+            return;
+        }
+
+        // Search for the checked radio button belonging to this specific practice question block
+        const selectedRadio = document.querySelector(`input[name="answers[${practiceId}]"]:checked`);
+        
+        // Setup simple multi-lingual phrasing tracking your layout variable
+        const isChinese = "{{ lang }}" === "Chi";
+
+        if (!selectedRadio) {
+            // Warn them to pick an answer choice variant first
+            evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold";
+            evaluationBox.innerHTML = isChinese 
+                ? `⚠️ 请先选择一个选项再查看答案！` 
+                : `⚠️ Please select an option before checking the answer!`;
+            return;
+        }
+
+        const studentChoice = selectedRadio.value;
+
+        if (studentChoice === correctAnswer) {
+            // Correct Choice State Layout styling
+            evaluationBox.className = "p-3 mb-3 border rounded text-success bg-success bg-opacity-10 text-center fw-bold fs-5";
+            evaluationBox.innerHTML = isChinese 
+                ? `🎉 回答正确！你的选择: ${studentChoice}` 
+                : `🎉 Correct! Your Choice: ${studentChoice}`;
+        } else {
+            // Incorrect Choice State Layout styling
+            evaluationBox.className = "p-3 mb-3 border rounded text-danger bg-danger bg-opacity-10 text-center fw-bold fs-5";
+            evaluationBox.innerHTML = isChinese 
+                ? `❌ 回答错误。你选了 ${studentChoice}，正确答案是: ${correctAnswer}` 
+                : `❌ Incorrect. You chose ${studentChoice}. The correct answer is: ${correctAnswer}`;
+        }
+    });
+});
