@@ -80,13 +80,13 @@
 
         <div class="border-top pt-3">
             <button class="btn btn-sm btn-outline-success mb-2 mc-check-btn" 
-        type="button" 
-        data-bs-target="#ans-content-{{p.id}}"
-        data-practice-id="{{p.id}}"
-        data-lang="{{ lang }}"
-        data-correct="{{ p.MCAns }}">
-    答案 Answer: Practice # {{ p.id }}
-</button>
+                    type="button" 
+                    data-bs-target="#ans-content-{{p.id}}"
+                    data-practice-id="{{p.id}}"
+                    data-lang="{{ lang }}"
+                    data-correct="{{ p.MCAns }}">
+                答案 Answer: Practice # {{ p.id }}
+            </button>
             <div class="collapse" id="ans-content-{{p.id}}">
               <div class="p-3 mb-3 border rounded evaluation-box text-center"></div>
               {% if p.answerLink_C and lang=='Chi' %}

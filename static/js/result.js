@@ -60,53 +60,68 @@ function loadSavedNotes() {
 document.addEventListener('DOMContentLoaded', loadSavedNotes);
 
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. Create a global Map object to house our persistent collapse instances
+    const collapseInstances = new Map();
+
+    // 2. Pre-initialize every collapse panel on the page immediately upon loading
     document.querySelectorAll('.mc-check-btn').forEach(button => {
-        // Find the collapse element target manually
         const targetSelector = button.getAttribute('data-bs-target');
         const collapseEl = document.querySelector(targetSelector);
         
-        // Initialize Bootstrap's Collapse handler dynamically (removes glitching)
-        const bsCollapse = new bootstrap.Collapse(collapseEl, { toggle: false });
+        if (collapseEl) {
+            // Create the official Bootstrap controller instance once
+            const bsCollapse = new bootstrap.Collapse(collapseEl, { toggle: false });
+            // Store it in our map using its unique practice id string as the key
+            const practiceId = button.getAttribute('data-practice-id');
+            collapseInstances.set(practiceId, bsCollapse);
+        }
+    });
 
+    // 3. Handle the click logic independently
+    document.querySelectorAll('.mc-check-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             const practiceId = this.getAttribute('data-practice-id');
             const correctAnswer = this.getAttribute('data-correct');
+            const targetSelector = this.getAttribute('data-bs-target');
+            const collapseEl = document.querySelector(targetSelector);
             const evaluationBox = collapseEl.querySelector('.evaluation-box');
             
             const currentLang = this.getAttribute('data-lang');
             const isChinese = (currentLang === "Chi");
 
+            // Fetch our pre-initialized instance out of storage safely
+            const bsCollapse = collapseInstances.get(practiceId);
+
             // Fallback safety if it's an old PDF layout style question
             if (!correctAnswer) {
-                bsCollapse.toggle();
+                if (bsCollapse) bsCollapse.toggle();
                 return;
             }
 
-            // Target the selected radio button input row
+            // Target the selected radio button input row safely
             const selectedRadio = document.querySelector('input[name="answers[' + practiceId + ']"]:checked');
             
             if (!selectedRadio) {
-                // 1. Force the collapse panel to open so they can see the warning alert box
-                bsCollapse.show();
+                // Force the collapse panel window to slide open
+                if (bsCollapse) bsCollapse.show();
                 
-                // 2. Format warning layout states
+                // Format warning banner visual states
                 evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold";
                 evaluationBox.innerHTML = isChinese 
                     ? `⚠️ 请先选择一个选项再查看答案！` 
                     : `⚠️ Please select an option before checking the answer!`;
                 
-                // Reset button style to yellow outline warning condition state
                 this.classList.remove('btn-success', 'btn-danger');
                 this.classList.add('btn-outline-warning');
-                return;
+                return; // Code exits here perfectly cleanly without locking Bootstrap!
             }
 
-            // Clear out warning layout color changes if they exist now
+            // Clear out warning layouts if an answer is selected now
             this.classList.remove('btn-outline-warning');
             const studentChoice = selectedRadio.value;
 
-            // Open the solution panel display dynamically
-            bsCollapse.show();
+            // Expand panel display container dynamically
+            if (bsCollapse) bsCollapse.show();
 
             if (studentChoice === correctAnswer) {
                 evaluationBox.className = "p-3 mb-3 border rounded text-success bg-success bg-opacity-10 text-center fw-bold fs-5";
