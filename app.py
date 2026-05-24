@@ -266,6 +266,121 @@ def result():
     random_practices = random.sample(all_filtered_practices, num_to_select)
     return render_template('result.html', practices=random_practices , lang = selected_lang)
 
+
+@app.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+    if request.method == 'POST':
+        q_file = request.files.get('question_file')
+        a_file = request.files.get('answer_file')
+        q_file_c = request.files.get('question_file_c')
+        a_file_c = request.files.get('answer_file_c')
+        selected_level = request.form.get('level')
+        MC_Answer = request.form.get('MCAnswer')
+        
+        # Core Requirement: Primary Question File must exist
+        if not q_file or q_file.filename == '':
+            return "Missing mandatory English question file!", 400
+
+        # 2. THE RULE VALIDATION: Must have an answer file OR an MC choice string
+        # Check if an English or Chinese answer file was uploaded
+        has_answer_file = (a_file and a_file.filename != '') or (a_file_c and a_file_c.filename != '')
+        # Check if the user filled out the MC option selector text field
+        has_mc_answer = MC_Answer is not None and MC_Answer.strip() != ''
+        
+# --- Convert level safely to an integer to handle comparison math ---
+try:
+    level_numeric = int(request.form.get('level', 1)) # Default fallback to 1 if empty
+except (ValueError, TypeError):
+    level_numeric = 1 # Fallback safety choice for open-ended structure
+
+# --- Your Amended Rules (Now Fully Compatible with Python Types) ---
+# Rule 1: If it's an Open-Ended Question (Level is NOT 0), they MUST provide a PDF Answer File
+if level_numeric != 0 and not has_answer_file:
+    return "Submission Blocked: Open-ended questions require an Answer PDF File!", 400
+
+# Rule 2: If it's an MC Question (Level IS 0), they MUST choose an MC Option (A, B, C, or D)
+if level_numeric == 0 and not has_mc_answer:
+    return "Submission Blocked: Multiple choice questions require selecting an MC Answer!", 400
+            
+        try:
+            # --- 1. Process Mandatory English Question ---
+            q_filename = secure_filename(q_file.filename)
+            q_file.seek(0)
+            supabase.storage.from_("practices").upload(
+                path=q_filename,
+                file=q_file.read(), 
+                file_options={"content-type": q_file.content_type}
+            )
+            public_url_q = supabase.storage.from_("practices").get_public_url(q_filename)
+            
+            # --- 2. Process Optional English Answer ---
+            public_url_a = None
+            if a_file and a_file.filename != '':
+                a_filename = secure_filename(a_file.filename)
+                a_file.seek(0)
+                supabase.storage.from_("practices").upload(
+                    path=a_filename,
+                    file=a_file.read(), 
+                    file_options={"content-type": a_file.content_type}
+                )
+                public_url_a = supabase.storage.from_("practices").get_public_url(a_filename)
+
+            # --- 3. Process Optional Chinese Question ---
+            public_url_q_c = None
+            if q_file_c and q_file_c.filename != '':
+                q_filename_c = secure_filename(q_file_c.filename)
+                q_file_c.seek(0)
+                supabase.storage.from_("practices").upload(
+                    path=q_filename_c,
+                    file=q_file_c.read(), 
+                    file_options={"content-type": q_file_c.content_type}
+                )
+                public_url_q_c = supabase.storage.from_("practices").get_public_url(q_filename_c)
+
+            # --- 4. Process Optional Chinese Answer ---
+            public_url_a_c = None
+            if a_file_c and a_file_c.filename != '':
+                a_filename_c = secure_filename(a_file_c.filename)
+                a_file_c.seek(0)
+                supabase.storage.from_("practices").upload(
+                    path=a_filename_c,
+                    file=a_file_c.read(), 
+                    file_options={"content-type": a_file_c.content_type}
+                )
+                public_url_a_c = supabase.storage.from_("practices").get_public_url(a_filename_c)
+
+            # --- 5. Commit to SQLite/PostgreSQL Database ---
+            
+            
+            new_practice = Practices(
+                questionLink=public_url_q,
+                answerLink=public_url_a,       # Will cleanly save as None/Null if skipped
+                questionLink_C=public_url_q_c, # Will cleanly save as None/Null if skipped
+                answerLink_C=public_url_a_c,   # Will cleanly save as None/Null if skipped
+                level=selected_level,
+                MCAns=MC_Answer
+            )
+            
+            selected_topic_ids = request.form.getlist('topics')
+            for tid in selected_topic_ids:
+                topic = Topics.query.get(int(tid))
+                if topic:
+                    new_practice.topics.append(topic)
+                    
+            db.session.add(new_practice)
+            db.session.commit()
+            return "Uploaded successfully! <a href='/upload'>back</a>"   
+            
+        except Exception as e:
+            db.session.rollback() # Protects database lifecycle state
+            print(f"Upload failed: {e}")
+            return f"An error occurred during upload: {e}", 500     
+            
+    allTopics = Topics.query.all()
+    return render_template('upload.html', all_topics=allTopics)
+
+'''
 @app.route('/upload',methods=['GET','POST'])
 @login_required
 def upload():
@@ -274,7 +389,7 @@ def upload():
         a_file=request.files.get('answer_file')
         q_file_c=request.files.get('question_file_c')
         a_file_c=request.files.get('answer_file_c')
-        if not q_file or not a_file:
+        if not q_file :
             return "Missing files!", 400
         q_filename=secure_filename(q_file.filename)
         a_filename=secure_filename(a_file.filename)
@@ -315,7 +430,8 @@ def upload():
             public_url_a_c = supabase.storage.from_("practices").get_public_url(a_filename_c)
             print(f"DEBUG: Question URL is {public_url_q}")
             selected_level = request.form.get('level')
-            new_practice=Practices(questionLink=public_url_q,answerLink=public_url_a,questionLink_C=public_url_q_c,answerLink_C=public_url_a_c,level=selected_level)
+            MC_Answer = request.form.get('MCAnswer')
+            new_practice=Practices(questionLink=public_url_q,answerLink=public_url_a,questionLink_C=public_url_q_c,answerLink_C=public_url_a_c,level=selected_level,MCAns=MC_Answer)
             selected_topic_ids = request.form.getlist('topics')
             for tid in selected_topic_ids:
                 topic = Topics.query.get(int(tid))
@@ -332,7 +448,7 @@ def upload():
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
-
+'''
 
 '''
 @app.route('/delete')
