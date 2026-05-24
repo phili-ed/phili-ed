@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             evaluationBox.className = "p-3 mb-3 border rounded text-danger bg-danger bg-opacity-10 text-center fw-bold fs-5 evaluation-box";
             evaluationBox.innerHTML = isChinese 
-                ? `❌ 回答錯誤。你的回答 ${studentChoice}，正確答案: ${correctAnswer}` 
-                : `❌ Incorrect. You chose ${studentChoice}. correct answer: ${correctAnswer}`;
+                ? `❌ 錯誤。  選了 ${studentChoice}.` 
+                : `❌ Incorrect.  ${studentChoice} was selected. `;
             
             button.className = "btn btn-sm btn-danger mb-2 mc-check-btn";
         }
