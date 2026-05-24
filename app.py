@@ -287,21 +287,21 @@ def upload():
         has_answer_file = (a_file and a_file.filename != '') or (a_file_c and a_file_c.filename != '')
         # Check if the user filled out the MC option selector text field
         has_mc_answer = MC_Answer is not None and MC_Answer.strip() != ''
-        
+
 # --- Convert level safely to an integer to handle comparison math ---
-try:
-    level_numeric = int(request.form.get('level', 1)) # Default fallback to 1 if empty
-except (ValueError, TypeError):
-    level_numeric = 1 # Fallback safety choice for open-ended structure
+        try:
+            level_numeric = int(request.form.get('level', 1)) # Default fallback to 1 if empty
+        except (ValueError, TypeError):
+            level_numeric = 1 # Fallback safety choice for open-ended structure
 
 # --- Your Amended Rules (Now Fully Compatible with Python Types) ---
 # Rule 1: If it's an Open-Ended Question (Level is NOT 0), they MUST provide a PDF Answer File
-if level_numeric != 0 and not has_answer_file:
-    return "Submission Blocked: Open-ended questions require an Answer PDF File!", 400
+        if level_numeric != 0 and not has_answer_file:
+            return "Submission Blocked: Open-ended questions require an Answer PDF File!", 400
 
 # Rule 2: If it's an MC Question (Level IS 0), they MUST choose an MC Option (A, B, C, or D)
-if level_numeric == 0 and not has_mc_answer:
-    return "Submission Blocked: Multiple choice questions require selecting an MC Answer!", 400
+        if level_numeric == 0 and not has_mc_answer:
+            return "Submission Blocked: Multiple choice questions require selecting an MC Answer!", 400
             
         try:
             # --- 1. Process Mandatory English Question ---
