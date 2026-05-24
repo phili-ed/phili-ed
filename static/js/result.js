@@ -66,8 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const practiceId = this.getAttribute('data-practice-id');
             const correctAnswer = this.getAttribute('data-correct');
             
-            // Locate the corresponding panel and evaluation text box directly
-            const panelEl = document.getElementById(`ans-panel-${practiceId}`);
+            // Inside your external .js file click listener:
+            const targetSelector = this.getAttribute('data-bs-target');
+            const panelEl = document.querySelector(targetSelector); // This will now perfectly find #ans-panel-ID!
             if (!panelEl) return;
             const evaluationBox = panelEl.querySelector('.evaluation-box');
             
