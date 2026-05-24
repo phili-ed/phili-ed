@@ -43,9 +43,9 @@
                 <p class="mb-1 fw-bold text-secondary">
                     {% if lang=='Chi' %}选择你的答案:{% else %}Select your answer:{% endif %}
                 </p>
-                
+                <div class="row">
                 {% for letter in ['A', 'B', 'C', 'D'] %}
-                <div class="form-check p-2 border rounded bg-light">
+                <div class="col-3 form-check p-2 border rounded bg-light">
                     <!-- Note the structured name syntax: answers[id] -->
                     <input class="form-check-input ms-1 me-2" 
                            type="radio" 
@@ -58,6 +58,7 @@
                     </label>
                 </div>
                 {% endfor %}
+                </div>
             </div>
             {% endif %}
             <div class="mt-3">
