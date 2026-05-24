@@ -59,10 +59,11 @@ function loadSavedNotes() {
 // Run the load function as soon as the page is ready
 document.addEventListener('DOMContentLoaded', loadSavedNotes);
 
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.mc-check-btn').forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault(); 
+            e.preventDefault(); // Prevents layout stuttering inside the accordion
             
             const practiceId = this.getAttribute('data-practice-id');
             const correctAnswer = this.getAttribute('data-correct');
@@ -75,29 +76,31 @@ document.addEventListener('DOMContentLoaded', function() {
             const currentLang = this.getAttribute('data-lang');
             const isChinese = (currentLang === "Chi");
 
+            // Fallback safety if it's an old PDF question without an MC option set
             if (!correctAnswer) {
                 panelEl.classList.toggle('d-none');
                 return;
             }
 
+            // Always ensure the answer panel is visible when checking answers
+            panelEl.classList.remove('d-none');
+
+            // Target the chosen radio button configuration
             const selectedRadio = document.querySelector(`input[name="answers[${practiceId}]"]:checked`);
             
             if (!selectedRadio) {
-                panelEl.classList.remove('d-none');
-                
+                // Set warning banner visual formatting updates
                 evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold";
                 evaluationBox.innerHTML = isChinese 
                     ? `⚠️ 请先选择一个选项再查看答案！` 
                     : `⚠️ Please select an option before checking the answer!`;
                 
-                // Explicitly clear old states and apply warning colors safely
-                this.classList.remove('btn-outline-success', 'btn-success', 'btn-danger');
-                this.classList.add('btn-outline-warning');
-                return; 
+                // Baseline Reset Strategy: Reset to standard state then apply warning variant safely
+                this.className = "btn btn-sm btn-outline-warning mb-2 mc-check-btn";
+                return; // Exits cleanly, allowing unlimited retry attempts
             }
 
             const studentChoice = selectedRadio.value;
-            panelEl.classList.remove('d-none');
 
             if (studentChoice === correctAnswer) {
                 evaluationBox.className = "p-3 mb-3 border rounded text-success bg-success bg-opacity-10 text-center fw-bold fs-5";
@@ -105,16 +108,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     ? `🎉 正確！你的答案: ${studentChoice}` 
                     : `🎉 Correct! Your Choice: ${studentChoice}`;
                 
-                this.classList.remove('btn-outline-success', 'btn-outline-warning', 'btn-danger');
-                this.classList.add('btn-success');
+                // Clean baseline state assignment for success
+                this.className = "btn btn-sm btn-success mb-2 mc-check-btn";
             } else {
                 evaluationBox.className = "p-3 mb-3 border rounded text-danger bg-danger bg-opacity-10 text-center fw-bold fs-5";
                 evaluationBox.innerHTML = isChinese 
                     ? `❌ 回答錯誤。你的回答 ${studentChoice}，正確答案: ${correctAnswer}` 
                     : `❌ Incorrect. You chose ${studentChoice}. correct answer: ${correctAnswer}`;
                 
-                this.classList.remove('btn-outline-success', 'btn-outline-warning', 'btn-success');
-                this.classList.add('btn-danger');
+                // Clean baseline state assignment for failure
+                this.className = "btn btn-sm btn-danger mb-2 mc-check-btn";
             }
         });
     });
