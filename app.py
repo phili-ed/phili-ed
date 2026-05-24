@@ -61,9 +61,9 @@ class Practices(db.Model):
     __tablename__='practices'
     id=db.Column(db.Integer,primary_key=True)
     questionLink = db.Column(db.String(300),nullable=False)
-    answerLink = db.Column(db.String(300),nullable=False)
-    questionLink_C = db.Column(db.String(300))
-    answerLink_C = db.Column(db.String(300))
+    answerLink = db.Column(db.String(300),nullable=True)
+    questionLink_C = db.Column(db.String(300),nullable=True)
+    answerLink_C = db.Column(db.String(300),nullable=True)
     level = db.Column(db.Integer)
     topics=db.relationship('Topics',secondary=practice_topic, back_populates='practices')
     MCAns = db.Column(db.String(1),nullable=True)
