@@ -2,74 +2,93 @@
 
 {% block title %} Upload {% endblock %}
 
-    {% block content %}
-<div class="container">
-<form action="/upload" method="POST" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6">
-            <label>Question pdf:</label>
-            <input type="file" name="question_file" accept="application/pdf" required>
-        </div>
-        <div class="col-md-6">
-            <label>Answer pdf:</label>
-            <input type="file" name="answer_file" accept="application/pdf" required>
-        </div>
-        <div class="col-md-6">
-            <label>Question Chinese pdf:</label>
-            <input type="file" name="question_file_c" accept="application/pdf" required>
-        </div>
-        <div class="col-md-6">
-            <label>Answer Chinese pdf:</label>
-            <input type="file" name="answer_file_c" accept="application/pdf" required>
-        </div>
-    </div>
-
-    <label>Select Topics:</label>
-    <div class="row m-1">
-    {% for topic in all_topics %}
-        <div class="col-12 col-md-4 p-2">
-            <div class="card p-2">
-                <input type="checkbox" name="topics" value="{{ topic.id }}">{{topic.id}} {{ topic.name }}
+{% block content %}
+<div class="container my-4">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        
+        <h4 class="mb-3">📚 Step 1: Upload Documents</h4>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold text-primary">Question PDF (English) *</label>
+                <input type="file" class="form-control" name="question_file" accept="application/pdf" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Answer PDF (English)</label>
+                <input type="file" class="form-control" name="answer_file" accept="application/pdf">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold text-success">Question PDF (Chinese)</label>
+                <input type="file" class="form-control" name="question_file_c" accept="application/pdf">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold text-success">Answer PDF (Chinese)</label>
+                <input type="file" class="form-control" name="answer_file_c" accept="application/pdf">
             </div>
         </div>
-    {% endfor %}
-    </div>
 
-    <fieldset>
-        <legend>Select Level:</legend>
-    
-        <input type="radio" id="beginner" name="level" value="3">
-        <label for="beginner">3</label><br>
+        <h4 class="mb-2">🏷️ Step 2: Select Topics</h4>
+        <div class="row m-1 mb-4">
+        {% for topic in all_topics %}
+            <div class="col-12 col-md-4 p-2">
+                <div class="card p-2 bg-light border-0 shadow-sm">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="topics" id="topic_{{ topic.id }}" value="{{ topic.id }}">
+                        <label class="form-check-label ms-2 fw-bold" for="topic_{{ topic.id }}">
+                            #{{ topic.id }} - {{ topic.name }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
 
-        <input type="radio" id="intermediate" name="level" value="4" checked>
-        <label for="intermediate">4</label><br>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <fieldset class="border p-3 rounded h-100">
+                    <legend class="float-none w-auto px-2 fw-bold fs-6">Select Level:</legend>
+                
+                    <div class="form-check my-1">
+                        <input type="radio" class="form-check-input" id="level_3" name="level" value="3">
+                        <label class="form-check-label" for="level_3">Level 3 (Open Ended)</label>
+                    </div>
 
-        <input type="radio" id="advanced" name="level" value="5">
-        <label for="advanced">5</label>
+                    <div class="form-check my-1">
+                        <input type="radio" class="form-check-input" id="level_4" name="level" value="4" checked>
+                        <label class="form-check-label" for="level_4">Level 4 (Open Ended)</label>
+                    </div>
 
-        <input type="radio" id="MC" name="level" value="0">
-        <label for="MC">MC</label><br>
+                    <div class="form-check my-1">
+                        <input type="radio" class="form-check-input" id="level_5" name="level" value="5">
+                        <label class="form-check-label" for="level_5">Level 5 (Open Ended)</label>
+                    </div>
 
-    </fieldset>
+                    <div class="form-check my-1 bg-warning bg-opacity-10 p-2 rounded">
+                        <input type="radio" class="form-check-input ms-0" id="level_mc" name="level" value="0">
+                        <label class="form-check-label ms-2 fw-bold text-dark" for="level_mc">🔢 MC Question (Level 0)</label>
+                    </div>
+                </fieldset>
+            </div>
 
-    <fieldset>
-        <legend>Select MC Answer:</legend>
-    
-        <input type="radio" id="AnsA"  name="MCAnswer" value="A">
-        <label for="AnsA">A</label><br>
+            <div class="col-md-6">
+                <fieldset class="border p-3 rounded h-100">
+                    <legend class="float-none w-auto px-2 fw-bold fs-6">Select MC Answer (If Level 0):</legend>
+                
+                    <div class="d-flex justify-content-between pt-2">
+                        {% for letter in ['A', 'B', 'C', 'D'] %}
+                        <div class="form-check form-check-inline border p-2 rounded bg-light text-center flex-fill mx-1">
+                            <input type="radio" class="form-check-input" id="Ans_{{ letter }}" name="MCAnswer" value="{{ letter }}">
+                            <label class="form-check-label fw-bold w-100" for="Ans_{{ letter }}">{{ letter }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <small class="text-muted d-block mt-2">Leave unselected if creating an open-ended question block.</small>
+                </fieldset>
+            </div>
+        </div>
 
-        <input type="radio" id="AnsB" name="MCAnswer" value="B">
-        <label for="AnsB">B</label><br>
-
-        <input type="radio"  id="AnsC" name="MCAnswer" value="C">
-        <label for="AnsC">C</label>
-
-        <input type="radio" id="AnsD"  name="MCAnswer" value="D">
-        <label for="AnsD">D</label><br>
-
-    </fieldset>
-    <button type="submit">Upload Practice</button>
-</form>
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">🚀 Upload Practice</button>
+        </div>
+    </form>
 </div>
-
-    {% endblock %}
+{% endblock %}
