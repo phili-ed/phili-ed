@@ -78,8 +78,13 @@
         </div>
 
         <div class="border-top pt-3">
-            <button class="btn btn-sm btn-outline-success mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#ans-content-{{p.id}}">
-                 答案 Answer: Practice # {{ p.id }}
+            <button class="btn btn-sm btn-outline-success mb-2 mc-check-btn" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#ans-content-{{p.id}}"
+                    data-practice-id="{{p.id}}"
+                    data-correct="{{ p.MCAns }}">
+                    答案 Answer: Practice # {{ p.id }}
             </button>
             <div class="collapse" id="ans-content-{{p.id}}">
               {% if p.MCAns %}
