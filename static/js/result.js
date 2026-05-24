@@ -1,4 +1,4 @@
-// 1. Core Solution Video/Document Toggles
+// 1. Solution Document Frame Frame Management
 function loadAnswer(id, url) {
     var container = document.getElementById("div-" + id);
     if (container.innerHTML !== "") {
@@ -8,7 +8,7 @@ function loadAnswer(id, url) {
     }
 }
 
-// 2. Note Capture System
+// 2. Client Workspace Save System
 function downloadNote(id) {
     const textArea = document.getElementById('notes-' + id);
     const textContent = textArea.value;
@@ -41,19 +41,18 @@ function loadSavedNotes() {
     });
 }
 
-// 3. Unified Initialization Block (Combining everything into a single lifecycle hook)
+// 3. Unified Interface Event Handling Lifecycle
 document.addEventListener('DOMContentLoaded', function() {
-    // Run Note Loader
+    // Initialize user workspaces
     loadSavedNotes();
 
-    // Event Delegation: Listen at document level so class changes never break bindings
+    // Event Delegation: Listens directly at document level to protect against loop execution changes
     document.addEventListener('click', function(e) {
-        // Target specifically our check button component
         const button = e.target.closest('.mc-check-btn');
         if (!button) return;
 
         e.preventDefault();
-        e.stopPropagation(); // Keeps Accordion panels stable
+        e.stopPropagation(); // Insulates parent Accordion state targets
 
         const practiceId = button.getAttribute('data-practice-id');
         const correctAnswer = button.getAttribute('data-correct');
@@ -61,12 +60,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const panelEl = document.querySelector(targetSelector); 
         
         if (!panelEl) return;
-        const evaluationBox = panelEl.querySelector('.evaluation-box');
+        // CRITICAL STABILITY FIX: Finds element by structural path instead of a volatile utility class name
+        const evaluationBox = panelEl.firstElementChild;
+        if (!evaluationBox) return;
         
         const currentLang = button.getAttribute('data-lang');
         const isChinese = (currentLang === "Chi");
 
-        // Fallback state logic
         if (!correctAnswer) {
             panelEl.classList.toggle('d-none');
             return;
@@ -74,38 +74,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
         panelEl.classList.remove('d-none');
 
-        // Check for active radio options
+        // Capture input choice state
         const selectedRadio = document.querySelector(`input[name="answers[${practiceId}]"]:checked`);
         
         if (!selectedRadio) {
-            evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold";
+            // Maintains structural placeholder baseline layout settings safely
+            evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold evaluation-box";
             evaluationBox.innerHTML = isChinese 
                 ? `⚠️ 请先选择一个选项再查看答案！` 
                 : `⚠️ Please select an option before checking the answer!`;
             
-            button.classList.remove('btn-outline-success', 'btn-success', 'btn-danger');
-            button.classList.add('btn-outline-warning');
-            return; 
+            button.className = "btn btn-sm btn-outline-warning mb-2 mc-check-btn";
+            return; // Exits securely, keeping structural variables alive for follow-up attempts
         }
 
         const studentChoice = selectedRadio.value;
 
         if (studentChoice === correctAnswer) {
-            evaluationBox.className = "p-3 mb-3 border rounded text-success bg-success bg-opacity-10 text-center fw-bold fs-5";
+            evaluationBox.className = "p-3 mb-3 border rounded text-success bg-success bg-opacity-10 text-center fw-bold fs-5 evaluation-box";
             evaluationBox.innerHTML = isChinese 
                 ? `🎉 正確！你的答案: ${studentChoice}` 
                 : `🎉 Correct! Your Choice: ${studentChoice}`;
             
-            button.classList.remove('btn-outline-success', 'btn-outline-warning', 'btn-danger');
-            button.classList.add('btn-success');
+            button.className = "btn btn-sm btn-success mb-2 mc-check-btn";
         } else {
-            evaluationBox.className = "p-3 mb-3 border rounded text-danger bg-danger bg-opacity-10 text-center fw-bold fs-5";
+            evaluationBox.className = "p-3 mb-3 border rounded text-danger bg-danger bg-opacity-10 text-center fw-bold fs-5 evaluation-box";
             evaluationBox.innerHTML = isChinese 
                 ? `❌ 回答錯誤。你的回答 ${studentChoice}，正確答案: ${correctAnswer}` 
                 : `❌ Incorrect. You chose ${studentChoice}. correct answer: ${correctAnswer}`;
             
-            button.classList.remove('btn-outline-success', 'btn-outline-warning', 'btn-success');
-            button.classList.add('btn-danger');
+            button.className = "btn btn-sm btn-danger mb-2 mc-check-btn";
         }
     });
 });
