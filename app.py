@@ -73,8 +73,8 @@ class User(db.Model, UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(50),unique=True,nullable=False)
     password=db.Column(db.Text,nullable=False)
-    # role level    1=pupil(mark question done)  2=premium/tutor clients(connect to pupil)  
-    #               3=inhouse tutor/Partner organization (owns question set)  4=web admin(adjust all contents as services)   5 = owner (control all roles)
+    # role level    1=pupil(littl more limit to get contact)  2=premium/tutor clients(record question perception)  
+    #               3=inhouse tutor/Partner organization (connect pupils)(owns question set?)  4=web admin(adjust all contents as services)   5 = owner (control all roles)
     role_level=db.Column(db.Integer, default=1)
 
 @login_manager.user_loader
