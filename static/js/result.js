@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Maintains structural placeholder baseline layout settings safely
             evaluationBox.className = "p-3 mb-3 border rounded text-warning bg-warning bg-opacity-10 text-center fw-bold evaluation-box";
             evaluationBox.innerHTML = isChinese 
-                ? `⚠️ 请先选择一个选项再查看答案！` 
-                : `⚠️ Please select an option before checking the answer!`;
+                ? `⚠️ 請先選擇` 
+                : `⚠️ Please select an option`;
             
             button.className = "btn btn-sm btn-outline-warning mb-2 mc-check-btn";
             return; // Exits securely, keeping structural variables alive for follow-up attempts
