@@ -4,8 +4,10 @@
 
     {% block content %}
     <div class="container p-2">
-    <h4>LOG IN</h4>
-    <a class="btn btn-info m-2" href="/contact">contact us for sign up</a>
+    <h4>LOG IN 登入</h4>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-info m-2" href="/contact">contact us for sign up</a>
+    </div>
     <div class="container m-2">
         <form action="{{ request.full_path }}" method="POST">
         <div class="m-1">
