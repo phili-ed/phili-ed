@@ -2,30 +2,34 @@
 
 {% block title %} Home {% endblock %}
 
-    {% block content %}
-<div class="container m-3">
-{% if not current_user.is_authenticated %}
-        <div class="d-flex justify-content-end">
-            <a class="btn btn-info m-2" href="/login">log in to have more access</a>
+{% block content %}
+<div class="container py-3">
+    {% if not current_user.is_authenticated %}
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn btn-info" href="/login">log in to have more access</a>
         </div>
-{% else %}
-        <h4 class="fw-bold m-2">Welcome , {{ current_user.username }} . </h4>
-{% endif %}
+    {% else %}
+        <h4 class="fw-bold mb-3">Welcome, {{ current_user.username }} . </h4>
+    {% endif %}
 
-    <div class="row">
-        <h2 class="fw-bold m-3">HKDSE 香港中學文憑</h2>
+    <div class="row g-3">
+        <h2 class="fw-bold mb-2">HKDSE 香港中學文憑</h2>
+        
         <div class="col-12 col-md-6">
-            <div class="card m-2 p-2">
+            <div class="card p-3 h-100 shadow-sm">
                 <h3>Physics 物理</h3>
-                <a class="btn btn-primary m-3 p-1" href="/search">Search and Download pdf Practices</a>
+                <div class="mt-auto">
+                    <a class="btn btn-primary w-100 mt-3" href="/search">Search and Download pdf Practices</a>
+                </div>
             </div>
         </div>
+        
         <div class="col-12 col-md-6">
-            <div class="card m-2 p-2">
+            <div class="card p-3 h-100 shadow-sm bg-light">
                 <h3>M1 / M2 </h3>
-                <p>coming soon!</p>
+                <p class="text-muted mt-2">Coming soon! 🚀</p>
             </div>
         </div>
     </div>
 </div>
-    {% endblock %}
+{% endblock %}
