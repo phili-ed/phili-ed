@@ -73,7 +73,7 @@ class User(db.Model, UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(50),unique=True,nullable=False)
     password=db.Column(db.Text,nullable=False)
-    # role level    0=non user (once per week)  1=pupil(once per day)  2=premium/tutor clients(record question perception)  
+    # role level    0=non user (once per day)  1=pupil(twice per day)  2=premium/tutor clients(record Q reception/exclude done Q)  
     #               3=inhouse tutor/Partner organization (connect pupils)(owns question set?)  4=web admin(adjust all contents as services)   5 = owner (control all roles)
     role_level=db.Column(db.Integer, default=1)
 
