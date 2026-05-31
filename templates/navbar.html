@@ -14,7 +14,9 @@
                     <li class="nav-item"><a class="nav-link" href="/admin/manage">Manage</a></li>
                     {% endif %}
                     {% if not current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="/login"><i class="fa-solid fa-right-to-bracket me-1"></i> Login </a>
+                    </li>
                     {% endif %}
                     {% if current_user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="/account">Account</a></li>
