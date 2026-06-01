@@ -6,7 +6,7 @@
 <div class="container py-3">
     {% if not current_user.is_authenticated %}
         <div class="d-flex justify-content-end mb-3">
-            <a class="btn btn-info" href="/login">log in to have more access</a>
+            <a class="btn btn-info" href="/login">log in for more access</a>
         </div>
     {% else %}
         <h4 class="fw-bold mb-3">Welcome, {{ current_user.username }} . </h4>
